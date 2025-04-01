@@ -1,0 +1,2480 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+		<!-- PWA мета-теги -->
+	<link rel="manifest" href="manifest.webmanifest">
+	<meta name="theme-color" content="#a67c52">
+
+	<!-- iOS специфичные теги -->
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+	<meta name="apple-mobile-web-app-title" content="3DCalc">
+	<link rel="apple-touch-icon" href="icons/icon-180.png">
+
+	<!-- Android специфичные теги -->
+	<meta name="mobile-web-app-capable" content="yes">
+	<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Калькулятор 3D-печати</title>
+    <style>
+        /* Основные стили для страницы */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            background-color: #e8d5b5;
+            color: #000;
+            font-weight: 600;
+        }
+
+        /* Стили для вкладок */
+        .tab {
+            overflow: hidden;
+            border: 1px solid #8B4513;
+            background-color: #d2b48c;
+            border-radius: 10px 10px 0 0;
+            position: relative;
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+		h1 {
+			text-align: center;
+			margin-bottom: 20px; /* Добавил отступ снизу для лучшего визуального разделения */
+		}
+
+        .tab button {
+            background-color: inherit;
+            float: left;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            padding: 10px 20px;
+            transition: 0.3s;
+            font-weight: 600;
+            color: #5a3a1a;
+            border-radius: 10px 10px 0 10px;
+            flex-grow: 1;
+        }
+
+        .tab button:hover {
+            background-color: #c19a6b;
+        }
+
+        .tab button.active {
+            background-color: #a67c52;
+            color: #fff;
+        }
+
+        .tabcontent {
+            display: none;
+            padding: 20px;
+            border: 1px solid #8B4513;
+            border-top: none;
+            background-color: #e8d5b5;
+            border-radius: 0 0 10px 10px;
+            position: relative;
+        }
+
+        .input-group {
+            margin-bottom: 15px;
+            width: 6cm;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #5a3a1a;
+            font-weight: 600;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+            background-color: #a67c52;
+            border: 1px solid #8B4513;
+            border-radius: 5px;
+            color: #fff;
+            font-weight: 600;
+        }
+
+        ::placeholder {
+            color: #5a3a1a;
+            opacity: 0.7;
+        }
+
+        .result {
+            margin-top: 20px;
+            font-weight: bold;
+            background-color: #d2b48c;
+            padding: 15px;
+            border-radius: 10px;
+            border: 1px solid #8B4513;
+            color: #5a3a1a;
+        }
+
+        button {
+            padding: 10px 20px;
+            cursor: pointer;
+            background-color: #d2b48c;
+            color: #5a3a1a;
+            border: 1px solid #8B4513;
+            border-radius: 5px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        button:hover {
+            background-color: #c19a6b;
+            color: #fff;
+        }
+
+        .info {
+            margin-top: 10px;
+            font-style: italic;
+            color: #5a3a1a;
+            font-size: 0.9em;
+        }
+
+        .inline-group {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .inline-group .input-group {
+            flex: 1;
+            min-width: 6cm;
+        }
+
+        .expenses {
+            margin-top: 10px;
+            font-size: 0.9em;
+            color: #5a3a1a;
+            background-color: #d2b48c;
+            padding: 15px;
+            border-radius: 10px;
+            border: 1px solid #8B4513;
+        }
+
+        .last-save-info {
+            margin-top: 5px;
+            font-size: 0.8em;
+            color: #5a3a1a;
+        }
+
+		.history {
+			margin-top: 20px;
+		}
+		.history-item {
+			padding: 0px;
+			border-bottom: 1px solid #8B4513;
+			display: flex;
+			flex-direction: column;
+			background-color: #d2b48c;
+			border-radius: 10px;
+			margin-bottom: 10px;
+			color: #5a3a1a;
+			overflow: hidden;
+		}
+		.history-item:last-child {
+			border-bottom: none;
+		}
+		.history-header {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			margin-bottom: 5px;
+			cursor: pointer;
+		}
+		.history-name {
+			font-weight: bold;
+			flex-grow: 1;
+			display: flex;
+			flex-direction: column;
+			padding: 5px 10px;
+		}
+		.history-time {
+			font-size: 0.8em;
+			color: #5a3a1a;
+			font-weight: normal;
+			margin-top: 3px;
+		}
+		.history-actions {
+			display: flex;
+			gap: 5px;
+		}
+		.history-data {
+			margin-top: 5px;
+			font-size: 0.9em;
+			display: flex;
+			justify-content: space-between;
+			gap: 0px;
+		}
+		.history-column {
+			flex: 1;
+			min-width: 0;
+			padding: 5px;
+			background-color: #c19a6b;
+			border: 1px solid #8B4513;
+			border-radius: 8px;
+			margin: 5px;
+			box-sizing: border-box;
+		}
+				/* Второй столбец */
+		.history-column:nth-child(2) p {
+			line-height: 1.7;
+		}
+
+		/* Третий столбец */
+		.history-column:nth-child(3) p {
+			line-height: 1.7;
+		}
+		.history-column p {
+			margin: 3px 0;
+			line-height: 1.2;
+		}
+		.history-spool-info {
+			display: flex;
+			align-items: center;
+			gap: 5px;
+			margin-bottom: 5px;
+		}
+		.history-collapsed {
+			display: none;
+		}
+		.divider-line {
+			border-top: 1px solid #8B4513;
+			margin: 5px 0;
+		}
+
+        /* Обновленные стили для кнопок действий */
+        .rename-button {
+            background-color: #d2b48c;
+            color: #5a3a1a;
+            border: 1px solid #8B4513;
+            padding: 3px 8px;
+            cursor: pointer;
+            font-size: 0.8em;
+            border-radius: 3px;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
+        }
+        .rename-button:hover {
+            background-color: #c19a6b;
+            color: #fff;
+        }
+
+        .delete-button {
+            background-color: #8B4513;
+            color: white;
+            border: 1px solid #5a3a1a;
+            padding: 3px 8px;
+            cursor: pointer;
+            font-size: 0.8em;
+            border-radius: 3px;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
+        }
+        .delete-button:hover {
+            background-color: #5a3a1a;
+        }
+
+        .toggle-button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.2em;
+            padding: 5px;
+            color: #5a3a1a;
+            margin-left: 5px;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Для кнопок в истории расчетов */
+        .history .rename-button {
+            margin-right: 5px;
+        }
+
+        #calculationName {
+            height: 40px;
+            box-sizing: border-box;
+            width: 9cm;
+        }
+
+        .spools-list {
+            margin-top: 15px;
+            border: 1px solid #8B4513;
+            padding: 10px;
+            border-radius: 10px;
+            background-color: #e8d5b5;
+        }
+        .spool-item {
+            padding: 10px;
+            border-bottom: 1px solid #8B4513;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            align-items: center;
+            background-color: #d2b48c;
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
+        .spool-item:last-child {
+            border-bottom: none;
+        }
+        .spool-item select {
+            flex: 1;
+            min-width: 150px;
+        }
+        .spool-item .input-group {
+            flex: 1;
+            min-width: 150px;
+        }
+        .spool-item .info {
+            flex: 2;
+            min-width: 200px;
+        }
+        .spool-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            cursor: pointer;
+            padding: 5px 0;
+        }
+        .spool-content {
+            width: 100%;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            padding-top: 10px;
+        }
+        .spool-collapsed {
+            display: none;
+        }
+        .toggle-spool {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.2em;
+            padding: 5px;
+            color: #5a3a1a;
+            margin-left: 5px;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .spool-name {
+            font-weight: bold;
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .filament-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: 1px solid #8B4513;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+        .filament-color-display {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: 1px solid #8B4513;
+            display: inline-block;
+            vertical-align: middle;
+            margin-left: 10px;
+        }
+
+        .save-calculation {
+            margin-top: 15px;
+            background-color: #d2b48c;
+            padding: 15px;
+            border-radius: 10px;
+            border: 1px solid #8B4513;
+        }
+        .save-calculation-input {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 5px;
+            align-items: center;
+        }
+
+        .spool-selection-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+            padding: 10px;
+            background-color: #d2b48c;
+            border-radius: 10px;
+            border: 1px solid #8B4513;
+        }
+        .spool-selection-label {
+            min-width: 80px;
+            font-weight: bold;
+            color: #5a3a1a;
+        }
+        .spool-selection-display {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-grow: 1;
+            position: relative;
+        }
+        .spool-selection-select {
+            flex-grow: 1;
+            padding: 8px;
+            border-radius: 5px;
+            border: 1px solid #8B4513;
+            width: 6cm;
+            background-color: #a67c52;
+            color: #fff;
+            font-size: 16px; /* Увеличенный размер шрифта */
+        }
+        .spool-selection-color {
+            width: 25px;
+            height: 25px;
+            min-width: 25px;
+            min-height: 25px;
+            border-radius: 50%;
+            border: 1px solid #8B4513;
+            flex-shrink: 0;
+        }
+
+        /* Новые стили для выпадающего списка катушек */
+        .spool-dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background-color: #e8d5b5;
+            border: 1px solid #8B4513;
+            border-radius: 5px;
+            max-height: 300px;
+            overflow-y: auto;
+            display: none;
+        }
+        
+        .spool-dropdown-search {
+            padding: 8px;
+            width: 100%;
+            box-sizing: border-box;
+            border: none;
+            border-bottom: 1px solid #8B4513;
+            background-color: #a67c52;
+            color: #fff;
+            font-weight: 600;
+        }
+        
+        .spool-dropdown-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .spool-dropdown-item {
+            padding: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .spool-dropdown-item:hover {
+            background-color: #d2b48c;
+        }
+        
+        .spool-dropdown-color {
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            border: 1px solid #8B4513;
+            flex-shrink: 0;
+        }
+
+        .filament-cost-info {
+            width: 100%;
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #a67c52;
+            border-radius: 10px;
+            font-size: 0.9em;
+            color: #fff;
+            border: 1px solid #8B4513;
+        }
+
+        .spool-title-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-grow: 1;
+        }
+        .spool-title-text {
+            font-weight: bold;
+        }
+
+        .backup-buttons {
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .backup-row {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .backup-button {
+            padding: 10px 20px;
+            cursor: pointer;
+            background-color: #d2b48c;
+            color: #5a3a1a;
+            border: 1px solid #8B4513;
+            border-radius: 5px;
+            font-weight: 600;
+            transition: all 0.3s;
+            width: 240px;
+            box-sizing: border-box;
+            text-align: center;
+        }
+        .backup-button:hover {
+            background-color: #c19a6b;
+            color: #fff;
+        }
+        .export-button {
+            background-color: #4CAF50;
+            color: white;
+        }
+        .import-button {
+            background-color: #2196F3;
+            color: white;
+        }
+        .reset-button {
+            background-color: #ff9800;
+            color: white;
+        }
+        .clear-history-button {
+            background-color: #f44336;
+            color: white;
+        }
+		.buttons-row button {
+			width: auto;
+		}
+        #fileInput {
+            display: none;
+        }
+
+        .settings-button {
+            padding: 10px 15px;
+            cursor: pointer;
+            height: auto;
+            flex-grow: 0;
+            flex-basis: auto;
+            width: auto;
+            min-width: 60px;
+        }
+        .settings-button::after {
+            content: "⚙";
+            font-size: 1.8em;
+        }
+
+        .backup-description {
+            flex: 1;
+            color: #5a3a1a;
+            font-size: 0.9em;
+        }
+
+        .spool-actions {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .version-info {
+            position: absolute;
+            bottom: 5px;
+            right: 10px;
+            font-size: 0.7em;
+            color: #5a3a1a;
+            opacity: 0.7;
+        }
+
+        .author-info {
+            margin-top: 30px;
+            padding: 15px;
+            background-color: #d2b48c;
+            border-radius: 10px;
+            border: 1px solid #8B4513;
+            color: #5a3a1a;
+            font-size: 0.9em;
+            line-height: 1.5;
+        }
+
+        /* Новые стили для разделительных линий */
+        .divider-line {
+            border-top: 1px solid #8B4513;
+            margin: 10px 0;
+        }
+
+        /* Стили для отступов в расходах */
+        .expense-item {
+            padding-left: 15px;
+            font-size: 0.85em;
+        }
+
+        /* Обновленные стили для поиска в истории */
+        .search-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .search-input-group {
+            display: flex;
+            gap: 10px;
+            flex-grow: 1;
+        }
+        
+        .search-input {
+            padding: 8px;
+            box-sizing: border-box;
+            background-color: #a67c52;
+            border: 1px solid #8B4513;
+            border-radius: 5px;
+            color: #fff;
+            font-weight: 600;
+            width: 7cm;
+        }
+        
+        .search-button {
+            padding: 8px 15px;
+            cursor: pointer;
+            background-color: #d2b48c;
+            color: #5a3a1a;
+            border: 1px solid #8B4513;
+            border-radius: 5px;
+            font-weight: 600;
+            transition: all 0.3s;
+            height: 38px;
+            box-sizing: border-box;
+            margin-top: 0;
+        }
+        
+        .toggle-all-button {
+            padding: 8px 15px;
+            cursor: pointer;
+            background-color: #d2b48c;
+            color: #5a3a1a;
+            border: 1px solid #8B4513;
+            border-radius: 5px;
+            font-weight: 600;
+            transition: all 0.3s;
+            height: 38px;
+            box-sizing: border-box;
+            margin-top: 0;
+            margin-left: auto;
+        }
+        
+        .search-button:hover, .toggle-all-button:hover {
+            background-color: #c19a6b;
+            color: #fff;
+        }
+        
+        .no-results {
+            text-align: center;
+            padding: 20px;
+            color: #5a3a1a;
+            font-style: italic;
+        }
+
+        /* Новые стили для заголовка катушек */
+        .spools-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            width: 100%;
+        }
+        
+        .spools-header-controls {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            margin-left: auto;
+        }
+        
+        .toggle-all-spools-button {
+            padding: 8px 15px;
+            cursor: pointer;
+            background-color: #d2b48c;
+            color: #5a3a1a;
+            border: 1px solid #8B4513;
+            border-radius: 5px;
+            font-weight: 600;
+            transition: all 0.3s;
+            height: 38px;
+            box-sizing: border-box;
+            margin-top: 0;
+            white-space: nowrap;
+        }
+        
+        .toggle-all-spools-button:hover {
+            background-color: #c19a6b;
+            color: #fff;
+        }
+
+        /* Обновленные стили для блока сохранения данных */
+        .save-data-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .save-info-text {
+            font-size: 0.8em;
+            color: #5a3a1a;
+            margin-right: 10px;
+        }
+        
+        .save-info-time {
+            font-size: 0.8em;
+            color: #5a3a1a;
+            font-weight: bold;
+        }
+        
+        /* Новые стили для контейнера кнопок */
+        .buttons-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        /* Новые стили для блока информации о печати */
+        .print-info {
+            margin-top: 15px;
+            background-color: #d2b48c;
+            padding: 15px;
+            border-radius: 10px;
+            border: 1px solid #8B4513;
+            color: #5a3a1a;
+            text-align: left;
+        }
+        
+        .print-info-row {
+            display: flex;
+            justify-content: flex-start;
+            margin-bottom: 5px;
+			gap: 10px;
+        }
+        
+        .print-info-row:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Обновленные стили для мобильной версии */
+        @media (max-width: 600px) {
+            .inline-group {
+                display: block;
+            }
+            .inline-group .input-group,
+            .input-group,
+            #calculationName,
+            .spool-selection-select {
+                width: 100%;
+                min-width: unset;
+            }
+			.buttons-row button {
+				width: 100%;
+			}
+            .spool-item .input-group,
+            .spool-item select,
+            .spool-item .info {
+                min-width: 100%;
+            }
+            .save-calculation-input {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .spool-main-info {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 5px;
+            }
+            .spool-selection-container {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 5px;
+            }
+            .spool-title-container {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 5px;
+            }
+            
+            /* Исправленные стили для истории расчетов */
+            .history-data {
+				flex-direction: column;
+				gap: 10px;
+				padding: 0;
+				margin: 0;
+				width: 100%;
+			}
+			.history-item {
+				padding: 0;
+				margin: 0 0 10px 0;
+				width: 100%;
+				box-sizing: border-box;
+			}
+            .history-column {
+                width: calc(100% - 10px); /* Учитываем внутренние отступы */
+				margin: 5px;
+				box-sizing: border-box;
+				padding: 10px;
+            }
+            .history-column:nth-child(1),
+			.history-column:nth-child(2),
+			.history-column:nth-child(3) {
+				margin-left: 0;
+				margin-right: 0;
+				width: 100%;
+			}
+            .history-column p {
+                text-align: center;
+				margin: 3px 0;
+				padding: 0 5px;
+			}
+            .history-spool-info {
+                justify-content: center;
+            }
+            .history-column {
+                margin-top: 0px;
+            }
+            .history-column:first-child {
+                margin-top: 0;
+            }
+            .history-column:last-child {
+				margin-bottom: 0;
+			}
+            .backup-buttons {
+                flex-direction: column;
+            }
+            .backup-button {
+                width: 100%;
+            }
+            .settings-button {
+                flex-grow: 1;
+                text-align: center;
+                border-top: 1px solid #8B4513;
+                order: 4;
+            }
+            .backup-row {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 5px;
+            }
+            .backup-description {
+                margin-left: 0;
+                margin-top: 5px;
+            }
+            .spool-actions {
+                margin-top: 5px;
+                width: 100%;
+                justify-content: flex-end;
+            }
+            .version-info {
+                position: static;
+                text-align: center;
+                margin-top: 10px;
+            }
+            .tab button {
+                padding: 10px 10px;
+                font-size: 0.9em;
+            }
+            
+            .spool-selection-color {
+                width: 25px;
+                height: 25px;
+                min-width: 25px;
+                min-height: 25px;
+            }
+
+            /* Адаптация поиска для мобильных */
+            .search-container {
+                flex-direction: column;
+            }
+            
+            .search-input-group {
+                width: 100%;
+            }
+            
+            .search-button, .toggle-all-button {
+                width: 100%;
+                margin-left: 0;
+            }
+            
+            .search-input {
+                width: 100%;
+            }
+            
+            .toggle-all-button {
+                margin-top: 10px;
+            }
+            
+            /* Адаптация заголовка катушек для мобильных */
+            .spools-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+            
+            .spools-header-controls {
+                width: 100%;
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .toggle-all-spools-button {
+                width: 100%;
+                text-align: center;
+            }
+            
+            /* Адаптация блока сохранения данных для мобильных */
+            .save-data-container {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+                width: 100%;
+            }
+            
+            .save-data-container > div {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                width: 100%;
+            }
+            
+            .save-info-text, .save-info-time {
+                text-align: left;
+                width: auto;
+                margin: 0;
+            }
+
+            /* Стили для блока сохранения расчета */
+            .save-calculation {
+                width: 100%;
+                box-sizing: border-box;
+            }
+            
+            .save-calculation-input {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            #calculationName {
+                width: 100%;
+                box-sizing: border-box;
+            }
+            
+            .save-calculation-input button {
+                width: 100%;
+                margin-top: 0;
+            }
+            
+            /* Адаптация выпадающего списка катушек для мобильных */
+            .spool-dropdown {
+                width: 100%;
+                left: 0;
+                right: 0;
+            }
+            
+            /* Адаптация блока информации о печати для мобильных */
+            .print-info-row {
+                flex-direction: row;
+				flex-wrap: wrap;
+                gap: 5px;
+            }
+			 /* Добавляем стиль для span внутри print-info-row */
+			.print-info-row span {
+				white-space: nowrap;
+				}
+        }
+    </style>
+</head>
+<body>
+    <h1>Калькулятор расчета стоимости 3D-печати</h1>
+
+    <!-- Контейнер для вкладок -->
+    <div class="tab">
+        <button class="tablinks" onclick="openTab(event, 'main')" id="defaultOpen">Расчет</button>
+        <button class="tablinks" onclick="openTab(event, 'settings')">Данные</button>
+        <button class="tablinks" onclick="openTab(event, 'history')">История расчетов</button>
+        <button class="tablinks settings-button" onclick="openTab(event, 'calculatorSettings')" title="Настройки калькулятора"></button>
+    </div>
+
+		<!-- Вкладка "Основные данные" -->
+	<div id="main" class="tabcontent">
+		<!-- Улучшенное отображение выбора катушки -->
+		<div class="spool-selection-container">
+			<div class="spool-selection-label">Катушка:</div>
+			<div class="spool-selection-display">
+				<input type="text" id="spoolSearchInputMain" class="spool-selection-select" placeholder="Выберите катушку" readonly>
+				<div class="spool-selection-color" id="selectedSpoolColorDisplay" style="background-color: #cccccc;"></div>
+				
+				<!-- Выпадающий список для поиска катушек -->
+				<div class="spool-dropdown" id="spoolDropdown">
+					<input type="text" class="spool-dropdown-search" placeholder="Поиск катушки..." id="spoolDropdownSearch">
+					<ul class="spool-dropdown-list" id="spoolDropdownList"></ul>
+				</div>
+			</div>
+		</div>
+
+		<!-- Время печати (часы и минуты) -->
+		<div class="inline-group">
+			<div class="input-group">
+				<label for="printTimeHours" title="Укажите время печати 1 экземпляра">Время печати (часы):</label>
+				<input type="number" id="printTimeHours" value="3">
+			</div>
+			<div class="input-group">
+				<label for="printTimeMinutes" title="Укажите время печати 1 экземпляра">Время печати (минуты):</label>
+				<input type="number" id="printTimeMinutes" value="0">
+			</div>
+		</div>
+
+		<!-- Масса детали и количество экземпляров -->
+		<div class="inline-group">
+			<div class="input-group">
+				<label for="partWeight" title="Укажите массу 1 экземпляра детали">Масса детали (гр.):</label>
+				<input type="number" id="partWeight" value="50">
+			</div>
+			<div class="input-group">
+				<label for="copies" title="Укажите планируемое количество экземпляров для печати">Кол-во экземпляров:</label>
+				<input type="number" id="copies" value="1">
+			</div>
+		</div>
+
+		<!-- Время на моделирование и постобработка на одной строке -->
+		<div class="inline-group">
+			<div class="input-group">
+				<label for="modelingTime" title="Укажите время, затраченное на моделирование">Время на моделирование (часы):</label>
+				<input type="number" id="modelingTime" value="0">
+			</div>
+			<div class="input-group">
+				<label for="postProcessingCost" title="Укажите стоимость постобработки всех распечатанных экземпляров">Стоимость постобработки (руб):</label>
+				<input type="number" id="postProcessingCost" value="0">
+			</div>
+		</div>
+
+		<!-- Строка с кнопками -->
+		<div class="buttons-row">
+			<button onclick="calculate()">Рассчитать</button>
+		</div>
+		
+		<!-- Новый блок с информацией о печати -->
+		<div class="print-info">
+			<div class="print-info-row">
+				<span>Общее время печати:</span>
+				<span id="totalPrintTime"></span>
+			</div>
+			<div class="print-info-row">
+				<span>Расход филамента:</span>
+				<span id="totalFilamentUsage"></span>
+			</div>
+		</div>
+
+		<div class="result">
+			<p>ИТОГО стоимость: <span id="totalPrice"></span> руб</p>
+			<p>Чистая прибыль: <span id="netProfit"></span> руб</p>
+			<div class="divider-line"></div>
+			<p>Себестоимость: <span id="costPrice"></span> руб</p>
+			<p class="expense-item">Электроэнергия: <span id="electricityExpense"></span> руб</p>
+			<p class="expense-item">Филамент: <span id="filamentExpense"></span> руб</p>
+			<p class="expense-item">Амортизация: <span id="depreciationExpense"></span> руб</p>
+			<div class="divider-line"></div>
+			<p>Моделирование: <span id="modelingExpense"></span> руб</p>
+			<p>Постобработка: <span id="postProcessingExpense"></span> руб</p>
+		</div>
+
+		<!-- Блок сохранения расчета -->
+		<div class="save-calculation">
+			<div class="save-calculation-input">
+				<input type="text" id="calculationName" placeholder="Введите название расчета для его сохранения">
+				<button onclick="saveCalculation()">Сохранить</button>
+			</div>
+		</div>
+		
+		<div class="version-info">Автор проекта: Алексей Погодин | Версия 1.0.0</div>
+	</div>
+
+	<!-- Вкладка "Параметры" -->
+	<div id="settings" class="tabcontent">
+		<!-- Мощность принтера и тариф на электричество -->
+		<div class="inline-group">
+			<div class="input-group">
+				<label for="printerPower" title="Укажите мощность вашего принтера">Мощность принтера (Вт):</label>
+				<input type="number" id="printerPower" value="300">
+			</div>
+			<div class="input-group">
+				<label for="electricityRate" title="Укажите тарифную ставку электроэнергии">Тариф на эл-во (руб/кВт*ч):</label>
+				<input type="number" id="electricityRate" value="6">
+			</div>
+		</div>
+
+		<!-- Стоимость принтера и срок службы -->
+		<div class="inline-group">
+			<div class="input-group">
+				<label for="printerCost" title="Укажите стоимость вашего принтера">Стоимость принтера (руб):</label>
+				<input type="number" id="printerCost" value="27000">
+			</div>
+			<div class="input-group">
+				<label for="printerLifetime" title="Укажите планируемый срок службы вашего принтера">Срок службы (лет):</label>
+				<input type="number" id="printerLifetime" value="1">
+			</div>
+		</div>
+
+		<!-- Коэффициент брака и стоимость моделирования -->
+		<div class="inline-group">
+			<div class="input-group">
+				<label for="wasteCoefficient" title="Укажите коэффициент брака, который будет учитываться в расчетах">Коэф. брака:</label>
+				<input type="number" id="wasteCoefficient" value="1.2" step="0.1">
+			</div>
+			<div class="input-group">
+				<label for="modelingHourRate" title="Укажите стоимость вашего 1 часа моделирования">Стоимость 1 часа моделирования (руб):</label>
+				<input type="number" id="modelingHourRate" value="500">
+			</div>
+		</div>
+
+        <!-- Список катушек -->
+        <div class="spools-header">
+            <h3>Катушки филамента</h3>
+            <div class="spools-header-controls">
+                <div class="search-input-group">
+                    <input type="text" id="spoolSearchInput" class="search-input" placeholder="Поиск катушки">
+                    <button class="search-button" onclick="searchSpools()">Найти</button>
+                </div>
+                <button class="search-button toggle-all-spools-button" id="toggleAllSpoolsButton" onclick="toggleAllSpools()">Свернуть все</button>
+            </div>
+        </div>
+        <div class="spools-list" id="spoolsList">
+            <!-- Катушки будут добавляться здесь динамически -->
+        </div>
+        
+        <!-- Строка с кнопками -->
+        <div class="buttons-row">
+            <button onclick="addSpool()">Добавить катушку</button>
+            <div class="save-data-container">
+                <button onclick="saveData()">Сохранить параметры</button>
+                <div>
+                    <span class="save-info-text">Последнее сохранение:</span>
+                    <span class="save-info-time" id="lastSaveInfoTimeSettings"></span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="version-info">Автор проекта: Алексей Погодин | Версия 1.0.0</div>
+    </div>
+
+    <!-- Вкладка "История расчетов" -->
+    <div id="history" class="tabcontent">
+        <!-- Блок поиска расчетов -->
+        <div class="search-container">
+            <div class="search-input-group">
+                <input type="text" id="searchInput" class="search-input" placeholder="Введите название">
+                <button class="search-button" onclick="searchCalculations()">Найти</button>
+            </div>
+            <button class="toggle-all-button" id="toggleAllButton" onclick="toggleAllCalculations()">Свернуть все</button>
+        </div>
+        
+        <div class="history" id="historyList"></div>
+        <div class="version-info">Автор проекта: Алексей Погодин | Версия 1.0.0</div>
+    </div>
+
+    <!-- Новая вкладка "Настройки калькулятора" -->
+    <div id="calculatorSettings" class="tabcontent">
+        <div class="backup-buttons">
+            <div class="backup-row">
+                <button class="backup-button clear-history-button" onclick="clearHistory()">Очистить журнал</button>
+                <div class="backup-description">Очистить журнал сохраненных расчетов</div>
+            </div>
+        </div>
+
+        <h3>Резервное копирование</h3>
+        
+        <!-- Кнопки резервного копирования -->
+        <div class="backup-buttons">
+            <div class="backup-row">
+                <button class="backup-button export-button" onclick="exportBackup()">Экспорт резервной копии</button>
+                <div class="backup-description">Экспорт всех настроек калькулятора, данных для расчетов и журнала с сохраненными расчетами</div>
+            </div>
+            <div class="backup-row">
+                <button class="backup-button import-button" onclick="document.getElementById('fileInput').click()">Импорт резервной копии</button>
+                <div class="backup-description">Импорт всех настроек калькулятора, данных для расчетов и журнала с сохраненными расчетами</div>
+            </div>
+            <input type="file" id="fileInput" accept=".json" onchange="importBackup(this)">
+        </div>
+
+        <h3 style="margin-top: 30px;">Сброс настроек</h3>
+        <div class="backup-buttons">
+            <div class="backup-row">
+                <button class="backup-button reset-button" onclick="resetToFactorySettings()">Сбросить до заводских настроек</button>
+                <div class="backup-description">Удаление всех данных для расчетов и очистка журнала сохраненных расчеты</div>
+            </div>
+        </div>
+
+        <!-- Добавленный блок информации об авторе -->
+        <div class="author-info">
+            <p>Данный проект (калькулятор расчета стоимости 3D-печати) был разработан по личной инициативе и является интеллектуальной собственностью автора.</p>
+            <p>Автором данного проекта является Алексей Погодин (@AlekseyPogodin)</p>
+            <p>Версия калькулятора - 1.0.0</p>
+        </div>
+    </div>
+
+    <script>
+        // Функция для переключения вкладок
+        function openTab(evt, tabName) {
+            const tabcontent = document.getElementsByClassName("tabcontent");
+            for (let i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+            const tablinks = document.getElementsByClassName("tablinks");
+            for (let i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+            document.getElementById(tabName).style.display = "block";
+            evt.currentTarget.className += " active";
+        }
+
+        // Открываем вкладку по умолчанию
+        document.getElementById("defaultOpen").click();
+
+        // Массив для хранения катушек
+        let spools = [];
+        // Массив для хранения состояния сворачивания расчетов
+        let collapsedCalculations = {};
+        // Флаг для отслеживания состояния кнопки "Свернуть все"
+        let allCollapsed = false;
+        // Флаг для отслеживания состояния кнопки "Свернуть все" катушки
+        let allSpoolsCollapsed = false;
+        // ID текущей выбранной катушки
+        let currentSelectedSpoolId = null;
+
+        // Функция для добавления новой катушки
+        function addSpool() {
+            // Если это первая катушка, создаем ее автоматически без запроса имени
+            if (spools.length === 0) {
+                const spoolId = Date.now();
+                const newSpool = {
+                    id: spoolId,
+                    name: 'Основная катушка',
+                    spoolCost: 1000,
+                    spoolWeight: 1000,
+                    filamentCostForSale: 3,
+                    color: '#cccccc',
+                    collapsed: false
+                };
+                spools.push(newSpool);
+                currentSelectedSpoolId = spoolId;
+                return spoolId;
+            }
+            
+            // Для всех последующих катушек запрашиваем название
+            const name = prompt('Введите название для новой катушки:', `Катушка ${spools.length + 1}`);
+            if (name === null) return null; // Пользователь отменил ввод
+            
+            const spoolId = Date.now();
+            const newSpool = {
+                id: spoolId,
+                name: name || `Катушка ${spools.length + 1}`,
+                spoolCost: 1000,
+                spoolWeight: 1000,
+                filamentCostForSale: 3,
+                color: '#cccccc',
+                collapsed: false
+            };
+            spools.push(newSpool);
+            
+            renderSpoolsList();
+            updateSpoolDropdown();
+            return spoolId;
+        }
+
+        // Функция для удаления катушки
+        function removeSpool(spoolId) {
+            if (spools.length <= 1) {
+                alert('Должна остаться хотя бы одна катушка!');
+                return;
+            }
+            
+            if (confirm('Вы уверены, что хотите удалить эту катушку?')) {
+                // Если удаляем текущую выбранную катушку, выбираем первую доступную
+                if (spoolId === currentSelectedSpoolId) {
+                    currentSelectedSpoolId = spools.find(spool => spool.id !== spoolId).id;
+                    updateSelectedSpoolDisplay();
+                }
+                
+                spools = spools.filter(spool => spool.id !== spoolId);
+                renderSpoolsList();
+                updateSpoolDropdown();
+            }
+        }
+
+        // Функция для переименования катушки
+        function renameSpool(spoolId) {
+            const spool = spools.find(s => s.id === spoolId);
+            if (!spool) return;
+            
+            const newName = prompt('Введите новое название для катушки:', spool.name);
+            if (newName && newName.trim() !== '') {
+                spool.name = newName.trim();
+                renderSpoolsList();
+                updateSpoolDropdown();
+                
+                // Если переименовываем текущую выбранную катушку, обновляем отображение
+                if (spoolId === currentSelectedSpoolId) {
+                    updateSelectedSpoolDisplay();
+                }
+            }
+        }
+
+        // Функция для изменения цвета катушки
+        function changeSpoolColor(spoolId) {
+            const spool = spools.find(s => s.id === spoolId);
+            if (!spool) return;
+            
+            const colorInput = document.createElement('input');
+            colorInput.type = 'color';
+            colorInput.value = spool.color;
+            
+            colorInput.addEventListener('change', function() {
+                spool.color = this.value;
+                renderSpoolsList();
+                updateSpoolDropdown();
+                
+                // Если меняем цвет текущей выбранной катушки, обновляем отображение
+                if (spoolId === currentSelectedSpoolId) {
+                    updateSelectedSpoolDisplay();
+                }
+            });
+            
+            colorInput.click();
+        }
+
+        // Функция для переключения состояния свернутости катушки
+        function toggleSpool(spoolId) {
+            const spool = spools.find(s => s.id === spoolId);
+            if (spool) {
+                spool.collapsed = !spool.collapsed;
+                renderSpoolsList();
+            }
+        }
+
+        // Функция для переключения состояния всех катушек (свернуть/развернуть все)
+        function toggleAllSpools() {
+            allSpoolsCollapsed = !allSpoolsCollapsed;
+            const button = document.getElementById('toggleAllSpoolsButton');
+            
+            // Обновляем состояние всех катушек
+            spools.forEach(spool => {
+                spool.collapsed = allSpoolsCollapsed;
+            });
+            
+            // Обновляем текст кнопки
+            button.textContent = allSpoolsCollapsed ? 'Развернуть все' : 'Свернуть все';
+            
+            // Перерисовываем список
+            renderSpoolsList();
+        }
+
+        // Функция для поиска катушек по названию
+        function searchSpools() {
+            const searchTerm = document.getElementById('spoolSearchInput').value.toLowerCase();
+            if (!searchTerm) {
+                renderSpoolsList();
+                return;
+            }
+
+            const filteredSpools = spools.filter(spool => 
+                spool.name.toLowerCase().includes(searchTerm)
+            );
+
+            renderFilteredSpoolsList(filteredSpools);
+        }
+
+        // Функция для отображения отфильтрованного списка катушек
+        function renderFilteredSpoolsList(filteredSpools) {
+            const spoolsList = document.getElementById('spoolsList');
+            spoolsList.innerHTML = '';
+
+            if (filteredSpools.length === 0) {
+                spoolsList.innerHTML = '<div class="no-results">Ничего не найдено</div>';
+                return;
+            }
+
+            filteredSpools.forEach((spool, index) => {
+                const spoolItem = document.createElement('div');
+                spoolItem.className = 'spool-item';
+                
+                const headerDiv = document.createElement('div');
+                headerDiv.className = 'spool-header';
+                
+                const titleContainer = document.createElement('div');
+                titleContainer.className = 'spool-title-container';
+                
+                const nameSpan = document.createElement('span');
+                nameSpan.className = 'spool-title-text';
+                nameSpan.textContent = spool.name;
+                
+                const colorDiv = document.createElement('div');
+                colorDiv.className = 'filament-color';
+                colorDiv.style.backgroundColor = spool.color;
+                colorDiv.title = 'Изменить цвет';
+                colorDiv.onclick = (e) => {
+                    e.stopPropagation();
+                    changeSpoolColor(spool.id);
+                };
+                
+                titleContainer.appendChild(nameSpan);
+                titleContainer.appendChild(colorDiv);
+                
+                const actionsDiv = document.createElement('div');
+                actionsDiv.className = 'spool-actions';
+                
+                const renameButton = document.createElement('button');
+                renameButton.className = 'rename-button';
+                renameButton.textContent = '✎';
+                renameButton.title = 'Переименовать';
+                renameButton.onclick = (e) => {
+                    e.stopPropagation();
+                    renameSpool(spool.id);
+                };
+                
+                const deleteButton = document.createElement('button');
+                deleteButton.className = 'delete-button';
+                deleteButton.textContent = '✕';
+                deleteButton.title = 'Удалить';
+                deleteButton.onclick = (e) => {
+                    e.stopPropagation();
+                    removeSpool(spool.id);
+                };
+                
+                const toggleButton = document.createElement('button');
+                toggleButton.className = 'toggle-spool';
+                toggleButton.textContent = spool.collapsed ? '▼' : '▲';
+                toggleButton.title = spool.collapsed ? 'Развернуть' : 'Свернуть';
+                toggleButton.onclick = (e) => {
+                    e.stopPropagation();
+                    toggleSpool(spool.id);
+                };
+                
+                actionsDiv.appendChild(renameButton);
+                actionsDiv.appendChild(deleteButton);
+                actionsDiv.appendChild(toggleButton);
+                
+                headerDiv.appendChild(titleContainer);
+                headerDiv.appendChild(actionsDiv);
+                
+                headerDiv.onclick = (e) => {
+                    if (!e.target.closest('.rename-button') && !e.target.closest('.filament-color') && !e.target.closest('.delete-button') && !e.target.closest('.toggle-spool')) {
+                        toggleSpool(spool.id);
+                    }
+                };
+                
+                spoolItem.appendChild(headerDiv);
+                
+                const contentDiv = document.createElement('div');
+                contentDiv.className = 'spool-content';
+                if (spool.collapsed) {
+                    contentDiv.classList.add('spool-collapsed');
+                }
+                
+                const costInput = document.createElement('input');
+                costInput.type = 'number';
+                costInput.value = spool.spoolCost;
+                costInput.placeholder = 'Стоимость катушки';
+                costInput.onchange = (e) => {
+                    spool.spoolCost = parseFloat(e.target.value) || 0;
+                    updateSpoolInfo(spool.id);
+                };
+                
+                const weightInput = document.createElement('input');
+                weightInput.type = 'number';
+                weightInput.value = spool.spoolWeight;
+                weightInput.placeholder = 'Масса катушки';
+                weightInput.onchange = (e) => {
+                    spool.spoolWeight = parseFloat(e.target.value) || 0;
+                    updateSpoolInfo(spool.id);
+                };
+                
+                const salePriceInput = document.createElement('input');
+                salePriceInput.type = 'number';
+                salePriceInput.value = spool.filamentCostForSale;
+                salePriceInput.placeholder = 'Цена за грамм';
+                salePriceInput.onchange = (e) => {
+                    spool.filamentCostForSale = parseFloat(e.target.value) || 0;
+                    updateSpoolInfo(spool.id);
+                };
+                
+                const costGroup = document.createElement('div');
+                costGroup.className = 'input-group';
+                costGroup.innerHTML = '<label>Стоимость катушки (руб):</label>';
+                costGroup.appendChild(costInput);
+                contentDiv.appendChild(costGroup);
+                
+                const weightGroup = document.createElement('div');
+                weightGroup.className = 'input-group';
+                weightGroup.innerHTML = '<label>Масса катушки (гр):</label>';
+                weightGroup.appendChild(weightInput);
+                contentDiv.appendChild(weightGroup);
+                
+                const saleGroup = document.createElement('div');
+                saleGroup.className = 'input-group';
+                saleGroup.innerHTML = '<label>Цена 1 гр. на продажу (руб):</label>';
+                saleGroup.appendChild(salePriceInput);
+                contentDiv.appendChild(saleGroup);
+                
+                const infoDiv = document.createElement('div');
+                infoDiv.className = 'filament-cost-info';
+                infoDiv.id = `spoolInfo_${spool.id}`;
+                contentDiv.appendChild(infoDiv);
+                
+                spoolItem.appendChild(contentDiv);
+                spoolsList.appendChild(spoolItem);
+                
+                updateSpoolInfo(spool.id);
+            });
+        }
+
+        // Функция для переключения состояния свернутости расчета
+        function toggleCalculation(index) {
+            collapsedCalculations[index] = !collapsedCalculations[index];
+            renderHistoryList(JSON.parse(localStorage.getItem('calculationHistory')) || []);
+        }
+
+        // Функция для переключения состояния всех расчетов (свернуть/развернуть все)
+        function toggleAllCalculations() {
+            const history = JSON.parse(localStorage.getItem('calculationHistory')) || [];
+            if (history.length === 0) return;
+            
+            allCollapsed = !allCollapsed;
+            const button = document.getElementById('toggleAllButton');
+            
+            // Обновляем состояние всех элементов
+            for (let i = 0; i < history.length; i++) {
+                collapsedCalculations[i] = allCollapsed;
+            }
+            
+            // Обновляем текст кнопки
+            button.textContent = allCollapsed ? 'Развернуть все' : 'Свернуть все';
+            
+            // Перерисовываем список
+            renderHistoryList(history);
+        }
+
+        // Функция для отображения списка катушек
+        function renderSpoolsList() {
+            const spoolsList = document.getElementById('spoolsList');
+            spoolsList.innerHTML = '';
+
+            spools.forEach((spool, index) => {
+                const spoolItem = document.createElement('div');
+                spoolItem.className = 'spool-item';
+                
+                const headerDiv = document.createElement('div');
+                headerDiv.className = 'spool-header';
+                
+                const titleContainer = document.createElement('div');
+                titleContainer.className = 'spool-title-container';
+                
+                const nameSpan = document.createElement('span');
+                nameSpan.className = 'spool-title-text';
+                nameSpan.textContent = spool.name;
+                
+                const colorDiv = document.createElement('div');
+                colorDiv.className = 'filament-color';
+                colorDiv.style.backgroundColor = spool.color;
+                colorDiv.title = 'Изменить цвет';
+                colorDiv.onclick = (e) => {
+                    e.stopPropagation();
+                    changeSpoolColor(spool.id);
+                };
+                
+                titleContainer.appendChild(nameSpan);
+                titleContainer.appendChild(colorDiv);
+                
+                const actionsDiv = document.createElement('div');
+                actionsDiv.className = 'spool-actions';
+                
+                const renameButton = document.createElement('button');
+                renameButton.className = 'rename-button';
+                renameButton.textContent = '✎';
+                renameButton.title = 'Переименовать';
+                renameButton.onclick = (e) => {
+                    e.stopPropagation();
+                    renameSpool(spool.id);
+                };
+                
+                const deleteButton = document.createElement('button');
+                deleteButton.className = 'delete-button';
+                deleteButton.textContent = '✕';
+                deleteButton.title = 'Удалить';
+                deleteButton.onclick = (e) => {
+                    e.stopPropagation();
+                    removeSpool(spool.id);
+                };
+                
+                const toggleButton = document.createElement('button');
+                toggleButton.className = 'toggle-spool';
+                toggleButton.textContent = spool.collapsed ? '▼' : '▲';
+                toggleButton.title = spool.collapsed ? 'Развернуть' : 'Свернуть';
+                toggleButton.onclick = (e) => {
+                    e.stopPropagation();
+                    toggleSpool(spool.id);
+                };
+                
+                actionsDiv.appendChild(renameButton);
+                actionsDiv.appendChild(deleteButton);
+                actionsDiv.appendChild(toggleButton);
+                
+                headerDiv.appendChild(titleContainer);
+                headerDiv.appendChild(actionsDiv);
+                
+                headerDiv.onclick = (e) => {
+                    if (!e.target.closest('.rename-button') && !e.target.closest('.filament-color') && !e.target.closest('.delete-button') && !e.target.closest('.toggle-spool')) {
+                        toggleSpool(spool.id);
+                    }
+                };
+                
+                spoolItem.appendChild(headerDiv);
+                
+                const contentDiv = document.createElement('div');
+                contentDiv.className = 'spool-content';
+                if (spool.collapsed) {
+                    contentDiv.classList.add('spool-collapsed');
+                }
+                
+                const costInput = document.createElement('input');
+                costInput.type = 'number';
+                costInput.value = spool.spoolCost;
+                costInput.placeholder = 'Стоимость катушки';
+                costInput.onchange = (e) => {
+                    spool.spoolCost = parseFloat(e.target.value) || 0;
+                    updateSpoolInfo(spool.id);
+                };
+                
+                const weightInput = document.createElement('input');
+                weightInput.type = 'number';
+                weightInput.value = spool.spoolWeight;
+                weightInput.placeholder = 'Масса катушки';
+                weightInput.onchange = (e) => {
+                    spool.spoolWeight = parseFloat(e.target.value) || 0;
+                    updateSpoolInfo(spool.id);
+                };
+                
+                const salePriceInput = document.createElement('input');
+                salePriceInput.type = 'number';
+                salePriceInput.value = spool.filamentCostForSale;
+                salePriceInput.placeholder = 'Цена за грамм';
+                salePriceInput.onchange = (e) => {
+                    spool.filamentCostForSale = parseFloat(e.target.value) || 0;
+                    updateSpoolInfo(spool.id);
+                };
+                
+                const costGroup = document.createElement('div');
+                costGroup.className = 'input-group';
+                costGroup.innerHTML = '<label>Стоимость катушки (руб):</label>';
+                costGroup.appendChild(costInput);
+                contentDiv.appendChild(costGroup);
+                
+                const weightGroup = document.createElement('div');
+                weightGroup.className = 'input-group';
+                weightGroup.innerHTML = '<label>Масса катушки (гр):</label>';
+                weightGroup.appendChild(weightInput);
+                contentDiv.appendChild(weightGroup);
+                
+                const saleGroup = document.createElement('div');
+                saleGroup.className = 'input-group';
+                saleGroup.innerHTML = '<label>Цена 1 гр. на продажу (руб):</label>';
+                saleGroup.appendChild(salePriceInput);
+                contentDiv.appendChild(saleGroup);
+                
+                const infoDiv = document.createElement('div');
+                infoDiv.className = 'filament-cost-info';
+                infoDiv.id = `spoolInfo_${spool.id}`;
+                contentDiv.appendChild(infoDiv);
+                
+                spoolItem.appendChild(contentDiv);
+                spoolsList.appendChild(spoolItem);
+                
+                updateSpoolInfo(spool.id);
+            });
+        }
+
+        // Функция для обновления информации о катушке
+        function updateSpoolInfo(spoolId) {
+            const spool = spools.find(s => s.id === spoolId);
+            if (!spool) return;
+            
+            const filamentCostPerGram = spool.spoolCost / spool.spoolWeight;
+            const markupPercentage = ((spool.filamentCostForSale - filamentCostPerGram) / filamentCostPerGram * 100).toFixed(2);
+            const infoDiv = document.getElementById(`spoolInfo_${spoolId}`);
+            if (infoDiv) {
+                infoDiv.innerHTML = `
+                    <div>Закупочная стоимость 1 гр: ${filamentCostPerGram.toFixed(2)} руб</div>
+                    <div>Величина наценки на 1 гр: ${markupPercentage}%</div>
+                `;
+            }
+        }
+
+        // Функция для обновления выпадающего списка катушек
+        function updateSpoolDropdown() {
+            const list = document.getElementById('spoolDropdownList');
+            list.innerHTML = '';
+            
+            spools.forEach(spool => {
+                const item = document.createElement('li');
+                item.className = 'spool-dropdown-item';
+                item.innerHTML = `
+                    <div class="spool-dropdown-color" style="background-color: ${spool.color};"></div>
+                    <span>${spool.name}</span>
+                `;
+                item.onclick = () => {
+                    currentSelectedSpoolId = spool.id;
+                    updateSelectedSpoolDisplay();
+                    document.getElementById('spoolDropdown').style.display = 'none';
+                };
+                list.appendChild(item);
+            });
+        }
+
+        // Функция для обновления отображения выбранной катушки
+        function updateSelectedSpoolDisplay() {
+            const selectedSpool = spools.find(spool => spool.id === currentSelectedSpoolId);
+            const colorDiv = document.getElementById('selectedSpoolColorDisplay');
+            const input = document.getElementById('spoolSearchInputMain');
+            
+            if (selectedSpool && colorDiv && input) {
+                input.value = selectedSpool.name;
+                colorDiv.style.backgroundColor = selectedSpool.color || '#cccccc';
+            }
+        }
+
+        // Функция для получения текущей выбранной катушки
+        function getSelectedSpool() {
+            return spools.find(spool => spool.id === currentSelectedSpoolId) || spools[0];
+        }
+
+        // Функция для сохранения данных
+        function saveData() {
+            localStorage.setItem('printTimeHours', document.getElementById('printTimeHours').value);
+            localStorage.setItem('printTimeMinutes', document.getElementById('printTimeMinutes').value);
+            localStorage.setItem('partWeight', document.getElementById('partWeight').value);
+            localStorage.setItem('copies', document.getElementById('copies').value);
+            localStorage.setItem('modelingTime', document.getElementById('modelingTime').value);
+            localStorage.setItem('postProcessingCost', document.getElementById('postProcessingCost').value);
+            localStorage.setItem('wasteCoefficient', document.getElementById('wasteCoefficient').value);
+            localStorage.setItem('printerPower', document.getElementById('printerPower').value);
+            localStorage.setItem('electricityRate', document.getElementById('electricityRate').value);
+            localStorage.setItem('printerCost', document.getElementById('printerCost').value);
+            localStorage.setItem('printerLifetime', document.getElementById('printerLifetime').value);
+            localStorage.setItem('modelingHourRate', document.getElementById('modelingHourRate').value);
+            
+            localStorage.setItem('spools', JSON.stringify(spools));
+            localStorage.setItem('currentSelectedSpoolId', currentSelectedSpoolId);
+            
+            const now = new Date();
+            const lastSaveTime = now.toLocaleString();
+            localStorage.setItem('lastSaveTime', lastSaveTime);
+
+            // Обновляем информацию о последнем сохранении
+            document.getElementById('lastSaveInfoTimeSettings').textContent = lastSaveTime;
+
+            alert('Данные сохранены!');
+        }
+
+        // Функция для загрузки данных
+        function loadData() {
+            document.getElementById('printTimeHours').value = localStorage.getItem('printTimeHours') || 0;
+            document.getElementById('printTimeMinutes').value = localStorage.getItem('printTimeMinutes') || 0;
+            document.getElementById('partWeight').value = localStorage.getItem('partWeight') || 0;
+            document.getElementById('copies').value = localStorage.getItem('copies') || 1;
+            document.getElementById('modelingTime').value = localStorage.getItem('modelingTime') || 0;
+            document.getElementById('postProcessingCost').value = localStorage.getItem('postProcessingCost') || 0;
+            document.getElementById('wasteCoefficient').value = localStorage.getItem('wasteCoefficient') || 1.2;
+            document.getElementById('printerPower').value = localStorage.getItem('printerPower') || 300;
+            document.getElementById('electricityRate').value = localStorage.getItem('electricityRate') || 6;
+            document.getElementById('printerCost').value = localStorage.getItem('printerCost') || 27000;
+            document.getElementById('printerLifetime').value = localStorage.getItem('printerLifetime') || 1;
+            document.getElementById('modelingHourRate').value = localStorage.getItem('modelingHourRate') || 250;
+            
+            const savedSpools = JSON.parse(localStorage.getItem('spools'));
+            if (savedSpools && savedSpools.length > 0) {
+                spools = savedSpools;
+                currentSelectedSpoolId = localStorage.getItem('currentSelectedSpoolId') || savedSpools[0].id;
+            } else {
+                // При первом запуске создаем первую катушку автоматически
+                currentSelectedSpoolId = addSpool();
+            }
+            
+            renderSpoolsList();
+            updateSpoolDropdown();
+            updateSelectedSpoolDisplay();
+            
+            const lastSaveTime = localStorage.getItem('lastSaveTime');
+            if (lastSaveTime) {
+                document.getElementById('lastSaveInfoTimeSettings').textContent = lastSaveTime;
+            }
+
+            loadHistory();
+        }
+
+        // Функция для поиска расчетов по названию
+        function searchCalculations() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            if (!searchTerm) {
+                loadHistory();
+                return;
+            }
+
+            const history = JSON.parse(localStorage.getItem('calculationHistory')) || [];
+            const filteredHistory = history.filter(item => 
+                item.name.toLowerCase().includes(searchTerm)
+            );
+
+            renderHistoryList(filteredHistory);
+        }
+
+        // Функция для отображения списка истории
+        function renderHistoryList(historyItems) {
+            const historyList = document.getElementById('historyList');
+            historyList.innerHTML = '';
+
+            if (historyItems.length === 0) {
+                historyList.innerHTML = '<div class="no-results">Ничего не найдено</div>';
+                return;
+            }
+
+            historyItems.forEach((item, index) => {
+                const isCollapsed = collapsedCalculations[index] === true;
+                
+                const historyItem = document.createElement('div');
+                historyItem.className = 'history-item';
+                
+                const headerDiv = document.createElement('div');
+                headerDiv.className = 'history-header';
+                
+                const nameDiv = document.createElement('div');
+                nameDiv.className = 'history-name';
+                nameDiv.innerHTML = `
+                    <div>${item.name}</div>
+                    <div class="history-time">${item.time}</div>
+                `;
+                
+                const actionsDiv = document.createElement('div');
+                actionsDiv.className = 'history-actions';
+                
+                const renameButton = document.createElement('button');
+                renameButton.className = 'rename-button';
+                renameButton.textContent = '✎';
+                renameButton.title = 'Переименовать';
+                renameButton.onclick = (e) => {
+                    e.stopPropagation();
+                    renameCalculation(index);
+                };
+                
+                const deleteButton = document.createElement('button');
+                deleteButton.className = 'delete-button';
+                deleteButton.textContent = '✕';
+                deleteButton.title = 'Удалить';
+                deleteButton.onclick = (e) => {
+                    e.stopPropagation();
+                    confirmDelete(index);
+                };
+                
+                const toggleButton = document.createElement('button');
+                toggleButton.className = 'toggle-button';
+                toggleButton.textContent = isCollapsed ? '▼' : '▲';
+                toggleButton.title = isCollapsed ? 'Развернуть' : 'Свернуть';
+                toggleButton.onclick = (e) => {
+                    e.stopPropagation();
+                    toggleCalculation(index);
+                };
+                
+                actionsDiv.appendChild(renameButton);
+                actionsDiv.appendChild(deleteButton);
+                actionsDiv.appendChild(toggleButton);
+                
+                headerDiv.appendChild(nameDiv);
+                headerDiv.appendChild(actionsDiv);
+                
+                headerDiv.onclick = (e) => {
+                    if (!e.target.closest('.rename-button') && !e.target.closest('.delete-button') && !e.target.closest('.toggle-button')) {
+                        toggleCalculation(index);
+                    }
+                };
+                
+                const dataDiv = document.createElement('div');
+                dataDiv.className = 'history-data';
+                if (isCollapsed) {
+                    dataDiv.classList.add('history-collapsed');
+                }
+                
+                const column1 = document.createElement('div');
+                column1.className = 'history-column';
+                
+                const spoolInfoDiv = document.createElement('div');
+                spoolInfoDiv.className = 'history-spool-info';
+                spoolInfoDiv.innerHTML = `
+                    <span>Катушка: ${item.spoolName}</span>
+                    <div class="filament-color-display" style="background-color: ${item.spoolColor};"></div>
+                `;
+                
+                const markupInfoDiv = document.createElement('p');
+                markupInfoDiv.innerHTML = `Наценка на филамент: ${item.markupPercentage}%<br> (${item.filamentCostPerGram} → ${item.filamentCostForSale} руб/гр)`;
+                
+                const printTimeDiv = document.createElement('p');
+                printTimeDiv.innerHTML = `Время печати: ${item.totalPrintTime}<br> (${item.printTimeHours} ч ${item.printTimeMinutes} мин × ${item.copies} шт)`;
+                
+                const filamentUsageDiv = document.createElement('p');
+                filamentUsageDiv.innerHTML = `Расход филамента: ${item.filamentUsage} гр`;
+                
+                column1.appendChild(spoolInfoDiv);
+                column1.appendChild(filamentUsageDiv);column1.appendChild(printTimeDiv);
+				column1.appendChild(markupInfoDiv);
+                
+                const column2 = document.createElement('div');
+                column2.className = 'history-column';
+                column2.innerHTML = `
+                    <p>ИТОГО цена: ${item.totalPrice} руб</p>
+                    <p>Чистая прибыль: ${item.netProfit} руб</p>
+                    <div class="divider-line"></div>
+                    <p>Моделирование: ${item.modelingExpense} руб</p>
+                    <p>Постобработка: ${item.postProcessingExpense} руб</p>
+                `;
+                
+                const column3 = document.createElement('div');
+                column3.className = 'history-column';
+                column3.innerHTML = `
+                    <p>Себестоимость: ${item.costPrice} руб</p>
+                    <div class="divider-line"></div>
+                    <p>Электроэнергия: ${item.electricityExpense} руб</p>
+                    <p>Филамент: ${item.filamentExpense} руб</p>
+                    <p>Амортизация: ${item.depreciationExpense} руб</p>
+                `;
+                
+                dataDiv.appendChild(column1);
+                dataDiv.appendChild(column2);
+                dataDiv.appendChild(column3);
+                
+                historyItem.appendChild(headerDiv);
+                historyItem.appendChild(dataDiv);
+                
+                historyList.appendChild(historyItem);
+            });
+        }
+
+        // Функция для загрузки истории расчетов
+        function loadHistory() {
+            const history = JSON.parse(localStorage.getItem('calculationHistory')) || [];
+            renderHistoryList(history);
+        }
+
+        // Функция для очистки журнала расчетов
+        function clearHistory() {
+            if (confirm('Вы уверены, что хотите очистить весь журнал расчетов? Это действие нельзя отменить.')) {
+                localStorage.removeItem('calculationHistory');
+                collapsedCalculations = {};
+                allCollapsed = false;
+                document.getElementById('toggleAllButton').textContent = 'Свернуть все';
+                loadHistory();
+                alert('Журнал расчетов успешно очищен!');
+            }
+        }
+
+        // Функция для добавления записи в историю расчетов
+        function saveCalculation() {
+            const calculationName = document.getElementById('calculationName').value;
+            if (!calculationName) {
+                alert('Пожалуйста, введите название расчета.');
+                return;
+            }
+
+            const totalPrice = parseFloat(document.getElementById('totalPrice').textContent);
+            const netProfit = parseFloat(document.getElementById('netProfit').textContent);
+            const costPrice = parseFloat(document.getElementById('costPrice').textContent);
+            const electricityExpense = parseFloat(document.getElementById('electricityExpense').textContent);
+            const filamentExpense = parseFloat(document.getElementById('filamentExpense').textContent);
+            const depreciationExpense = parseFloat(document.getElementById('depreciationExpense').textContent);
+            const modelingExpense = parseFloat(document.getElementById('modelingExpense').textContent);
+            const postProcessingExpense = parseFloat(document.getElementById('postProcessingExpense').textContent);
+
+            const selectedSpool = getSelectedSpool();
+            const spoolName = selectedSpool.name;
+            const spoolColor = selectedSpool.color;
+            
+            // Добавляем расчет наценки
+            const filamentCostPerGram = selectedSpool.spoolCost / selectedSpool.spoolWeight;
+            const markupPercentage = ((selectedSpool.filamentCostForSale - filamentCostPerGram) / filamentCostPerGram * 100).toFixed(2);
+
+            const printTimeHours = document.getElementById('printTimeHours').value;
+            const printTimeMinutes = document.getElementById('printTimeMinutes').value;
+            const partWeight = document.getElementById('partWeight').value;
+            const copies = document.getElementById('copies').value;
+            const wasteCoefficient = document.getElementById('wasteCoefficient').value;
+            const filamentUsage = (partWeight * copies * wasteCoefficient).toFixed(2);
+
+            // Рассчитываем общее время печати с учетом количества экземпляров
+            const totalPrintTimeMinutes = (printTimeHours * 60 + parseInt(printTimeMinutes)) * copies;
+            const totalHours = Math.floor(totalPrintTimeMinutes / 60);
+            const totalMinutes = totalPrintTimeMinutes % 60;
+
+            const now = new Date();
+            const historyItem = {
+                name: calculationName,
+                time: now.toLocaleString(),
+                totalPrice: totalPrice.toFixed(2),
+                netProfit: netProfit.toFixed(2),
+                costPrice: costPrice.toFixed(2),
+                electricityExpense: electricityExpense.toFixed(2),
+                filamentExpense: filamentExpense.toFixed(2),
+                depreciationExpense: depreciationExpense.toFixed(2),
+                modelingExpense: modelingExpense.toFixed(2),
+                postProcessingExpense: postProcessingExpense.toFixed(2),
+                spoolName: spoolName,
+                spoolColor: spoolColor,
+                printTimeHours: printTimeHours,
+                printTimeMinutes: printTimeMinutes,
+                copies: copies,
+                totalPrintTime: `${totalHours} ч ${totalMinutes} мин`,
+                filamentUsage: filamentUsage,
+                markupPercentage: markupPercentage,
+                filamentCostPerGram: filamentCostPerGram.toFixed(2),
+                filamentCostForSale: selectedSpool.filamentCostForSale
+            };
+
+            const history = JSON.parse(localStorage.getItem('calculationHistory')) || [];
+            history.unshift(historyItem);
+            localStorage.setItem('calculationHistory', JSON.stringify(history));
+
+            collapsedCalculations = {};
+            allCollapsed = false;
+            document.getElementById('toggleAllButton').textContent = 'Свернуть все';
+            loadHistory();
+            document.getElementById('calculationName').value = '';
+            alert('Расчет сохранен в историю!');
+        }
+
+        // Функция для подтверждения удаления
+        function confirmDelete(index) {
+            if (confirm('Вы уверены, что хотите удалить этот расчет?')) {
+                deleteCalculation(index);
+            }
+        }
+
+        // Функция для удаления расчета из истории
+        function deleteCalculation(index) {
+            const history = JSON.parse(localStorage.getItem('calculationHistory')) || [];
+            history.splice(index, 1);
+            localStorage.setItem('calculationHistory', JSON.stringify(history));
+            
+            // Обновляем состояния сворачивания после удаления
+            const newCollapsed = {};
+            Object.keys(collapsedCalculations).forEach(key => {
+                const numKey = parseInt(key);
+                if (numKey < index) {
+                    newCollapsed[numKey] = collapsedCalculations[key];
+                } else if (numKey > index) {
+                    newCollapsed[numKey - 1] = collapsedCalculations[key];
+                }
+            });
+            collapsedCalculations = newCollapsed;
+            
+            loadHistory();
+        }
+
+        // Функция для переименования расчета
+        function renameCalculation(index) {
+            const newName = prompt('Введите новое название для расчета:');
+            if (newName) {
+                const history = JSON.parse(localStorage.getItem('calculationHistory')) || [];
+                history[index].name = newName;
+                localStorage.setItem('calculationHistory', JSON.stringify(history));
+                loadHistory();
+            }
+        }
+
+        // Функция для выполнения расчетов
+        function calculate() {
+            const printTimeHours = parseFloat(document.getElementById('printTimeHours').value);
+            const printTimeMinutes = parseFloat(document.getElementById('printTimeMinutes').value);
+            const partWeight = parseFloat(document.getElementById('partWeight').value);
+            const copies = parseFloat(document.getElementById('copies').value);
+            const modelingTime = parseFloat(document.getElementById('modelingTime').value);
+            const postProcessingCost = parseFloat(document.getElementById('postProcessingCost').value);
+            const printerPower = parseFloat(document.getElementById('printerPower').value);
+            const electricityRate = parseFloat(document.getElementById('electricityRate').value);
+            const printerCost = parseFloat(document.getElementById('printerCost').value);
+            const printerLifetime = parseFloat(document.getElementById('printerLifetime').value);
+            const wasteCoefficient = parseFloat(document.getElementById('wasteCoefficient').value);
+            const modelingHourRate = parseFloat(document.getElementById('modelingHourRate').value);
+            
+            const selectedSpool = getSelectedSpool();
+            const filamentCostForSale = selectedSpool.filamentCostForSale;
+            const filamentCostPerGram = selectedSpool.spoolCost / selectedSpool.spoolWeight;
+
+            const printTimeTotalMinutes = printTimeHours * 60 + printTimeMinutes;
+            const totalPrintTimeMinutes = printTimeTotalMinutes * copies;
+            const totalPrintHours = Math.floor(totalPrintTimeMinutes / 60);
+            const remainingMinutes = totalPrintTimeMinutes % 60;
+            
+            const totalFilamentUsage = (partWeight * copies * wasteCoefficient).toFixed(2);
+
+            // Обновляем информацию о времени печати и расходе филамента
+            document.getElementById('totalPrintTime').textContent = `${totalPrintHours} ч ${remainingMinutes} мин`;
+            document.getElementById('totalFilamentUsage').textContent = `${totalFilamentUsage} гр`;
+
+            const electricityCostPerMinute = (printerPower / 1000) * (electricityRate / 60);
+            const electricityTotal = electricityCostPerMinute * printTimeTotalMinutes * copies;
+            
+            // Измененный расчет стоимости филамента - теперь используем закупочную стоимость
+            const filamentTotal = filamentCostForSale * partWeight * copies * wasteCoefficient;
+            const filamentCost = filamentCostPerGram * partWeight * copies * wasteCoefficient;
+            
+            const depreciationPerMinute = printerCost / (printerLifetime * 365 * 24 * 60);
+            const depreciationTotal = depreciationPerMinute * printTimeTotalMinutes * copies;
+            
+            // Расчет стоимости моделирования
+            const modelingCost = modelingTime * modelingHourRate;
+
+            const totalPrice = electricityTotal + filamentTotal + depreciationTotal + modelingCost + postProcessingCost;
+            const costPrice = electricityTotal + filamentCost + depreciationTotal;
+            const netProfit = totalPrice - costPrice;
+
+            document.getElementById('totalPrice').textContent = totalPrice.toFixed(2);
+            document.getElementById('netProfit').textContent = netProfit.toFixed(2);
+            document.getElementById('costPrice').textContent = costPrice.toFixed(2);
+            document.getElementById('electricityExpense').textContent = electricityTotal.toFixed(2);
+            document.getElementById('filamentExpense').textContent = filamentCost.toFixed(2);
+            document.getElementById('depreciationExpense').textContent = depreciationTotal.toFixed(2);
+            document.getElementById('modelingExpense').textContent = modelingCost.toFixed(2);
+            document.getElementById('postProcessingExpense').textContent = postProcessingCost.toFixed(2);
+        }
+
+        // Функция для экспорта резервной копии
+        function exportBackup() {
+            const backupData = {
+                settings: {
+                    printTimeHours: document.getElementById('printTimeHours').value,
+                    printTimeMinutes: document.getElementById('printTimeMinutes').value,
+                    partWeight: document.getElementById('partWeight').value,
+                    copies: document.getElementById('copies').value,
+                    modelingTime: document.getElementById('modelingTime').value,
+                    postProcessingCost: document.getElementById('postProcessingCost').value,
+                    wasteCoefficient: document.getElementById('wasteCoefficient').value,
+                    printerPower: document.getElementById('printerPower').value,
+                    electricityRate: document.getElementById('electricityRate').value,
+                    printerCost: document.getElementById('printerCost').value,
+                    printerLifetime: document.getElementById('printerLifetime').value,
+                    modelingHourRate: document.getElementById('modelingHourRate').value
+                },
+                spools: spools,
+                currentSelectedSpoolId: currentSelectedSpoolId,
+                history: JSON.parse(localStorage.getItem('calculationHistory')) || [],
+                version: "1.0",
+                exportedAt: new Date().toISOString()
+            };
+
+            const dataStr = JSON.stringify(backupData, null, 2);
+            const blob = new Blob([dataStr], {type: 'application/json'});
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `3d_print_calculator_backup_${new Date().toISOString().slice(0, 10)}.json`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            alert('Резервная копия успешно экспортирована!');
+        }
+
+        // Функция для импорта резервной копии
+        function importBackup(input) {
+            const file = input.files[0];
+            if (!file) return;
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const backupData = JSON.parse(e.target.result);
+                    
+                    if (!backupData.settings || !backupData.spools) {
+                        throw new Error("Некорректный формат файла резервной копии");
+                    }
+                    
+                    if (backupData.settings) {
+                        document.getElementById('printTimeHours').value = backupData.settings.printTimeHours || 0;
+                        document.getElementById('printTimeMinutes').value = backupData.settings.printTimeMinutes || 0;
+                        document.getElementById('partWeight').value = backupData.settings.partWeight || 0;
+                        document.getElementById('copies').value = backupData.settings.copies || 1;
+                        document.getElementById('modelingTime').value = backupData.settings.modelingTime || 0;
+                        document.getElementById('postProcessingCost').value = backupData.settings.postProcessingCost || 0;
+                        document.getElementById('wasteCoefficient').value = backupData.settings.wasteCoefficient || 1.2;
+                        document.getElementById('printerPower').value = backupData.settings.printerPower || 300;
+                        document.getElementById('electricityRate').value = backupData.settings.electricityRate || 6;
+                        document.getElementById('printerCost').value = backupData.settings.printerCost || 27000;
+                        document.getElementById('printerLifetime').value = backupData.settings.printerLifetime || 1;
+                        document.getElementById('modelingHourRate').value = backupData.settings.modelingHourRate || 250;
+                    }
+                    
+                    if (backupData.spools && backupData.spools.length > 0) {
+                        spools = backupData.spools;
+                        currentSelectedSpoolId = backupData.currentSelectedSpoolId || spools[0].id;
+                        renderSpoolsList();
+                        updateSpoolDropdown();
+                        updateSelectedSpoolDisplay();
+                    }
+                    
+                    if (backupData.history && backupData.history.length > 0) {
+                        localStorage.setItem('calculationHistory', JSON.stringify(backupData.history));
+                        collapsedCalculations = {};
+                        allCollapsed = false;
+                        document.getElementById('toggleAllButton').textContent = 'Свернуть все';
+                        loadHistory();
+                    }
+                    
+                    saveData();
+                    alert('Резервная копия успешно импортирована!');
+                } catch (error) {
+                    alert('Ошибка при импорте резервной копии: ' + error.message);
+                    console.error(error);
+                }
+                
+                input.value = '';
+            };
+            
+            reader.onerror = function() {
+                alert('Ошибка при чтении файла');
+                input.value = '';
+            };
+            
+            reader.readAsText(file);
+        }
+
+        // Функция для сброса к заводским настройкам
+        function resetToFactorySettings() {
+            if (confirm('Вы уверены, что хотите сбросить все настройки калькулятора к заводским? Это действие нельзя отменить и все ваши данные будут удалены.')) {
+                localStorage.clear();
+                
+                document.getElementById('printTimeHours').value = 1;
+                document.getElementById('printTimeMinutes').value = 0;
+                document.getElementById('partWeight').value = 0;
+                document.getElementById('copies').value = 1;
+                document.getElementById('modelingTime').value = 0;
+                document.getElementById('postProcessingCost').value = 0;
+                document.getElementById('wasteCoefficient').value = 1.2;
+                document.getElementById('printerPower').value = 300;
+                document.getElementById('electricityRate').value = 6;
+                document.getElementById('printerCost').value = 27000;
+                document.getElementById('printerLifetime').value = 1;
+                document.getElementById('modelingHourRate').value = 500;
+                
+                spools = [];
+                // Создаем первую катушку автоматически
+                currentSelectedSpoolId = addSpool();
+                
+                localStorage.removeItem('calculationHistory');
+                collapsedCalculations = {};
+                allCollapsed = false;
+                document.getElementById('toggleAllButton').textContent = 'Свернуть все';
+                document.getElementById('historyList').innerHTML = '';
+                
+                document.getElementById('lastSaveInfoTimeSettings').textContent = '';
+                
+                document.getElementById('totalPrice').textContent = '';
+                document.getElementById('netProfit').textContent = '';
+                document.getElementById('costPrice').textContent = '';
+                document.getElementById('electricityExpense').textContent = '';
+                document.getElementById('filamentExpense').textContent = '';
+                document.getElementById('depreciationExpense').textContent = '';
+                document.getElementById('modelingExpense').textContent = '';
+                document.getElementById('postProcessingExpense').textContent = '';
+                
+                alert('Калькулятор сброшен к заводским настройкам!');
+            }
+        }
+
+        // Функция для отображения выпадающего списка катушек
+        function showSpoolDropdown() {
+            const dropdown = document.getElementById('spoolDropdown');
+            const list = document.getElementById('spoolDropdownList');
+            
+            // Очищаем список перед заполнением
+            list.innerHTML = '';
+            
+            // Заполняем список катушками
+            spools.forEach(spool => {
+                const item = document.createElement('li');
+                item.className = 'spool-dropdown-item';
+                item.innerHTML = `
+                    <div class="spool-dropdown-color" style="background-color: ${spool.color};"></div>
+                    <span>${spool.name}</span>
+                `;
+                item.onclick = () => {
+                    currentSelectedSpoolId = spool.id;
+                    updateSelectedSpoolDisplay();
+                    dropdown.style.display = 'none';
+                };
+                list.appendChild(item);
+            });
+            
+            // Показываем выпадающий список
+            dropdown.style.display = 'block';
+            
+            // Фокусируемся на поле поиска
+            document.getElementById('spoolDropdownSearch').focus();
+        }
+
+        // Функция для поиска катушек в выпадающем списке
+        function searchSpoolsInDropdown() {
+            const searchTerm = document.getElementById('spoolDropdownSearch').value.toLowerCase();
+            const items = document.querySelectorAll('.spool-dropdown-item');
+            
+            items.forEach(item => {
+                const spoolName = item.textContent.toLowerCase();
+                if (spoolName.includes(searchTerm)) {
+                    item.style.display = 'flex';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+
+        // Загружаем данные при загрузке страницы
+        window.onload = function() {
+            loadData();
+            
+            // Обработчики событий для выпадающего списка катушек
+            document.getElementById('spoolSearchInputMain').addEventListener('click', showSpoolDropdown);
+            document.getElementById('selectedSpoolColorDisplay').addEventListener('click', showSpoolDropdown);
+            document.getElementById('spoolDropdownSearch').addEventListener('input', searchSpoolsInDropdown);
+            
+            // Закрываем выпадающий список при клике вне его
+            document.addEventListener('click', function(e) {
+                const dropdown = document.getElementById('spoolDropdown');
+                const input = document.getElementById('spoolSearchInputMain');
+                const colorDisplay = document.getElementById('selectedSpoolColorDisplay');
+                
+                if (!dropdown.contains(e.target) && e.target !== input && e.target !== colorDisplay) {
+                    dropdown.style.display = 'none';
+                }
+            });
+            
+            // Добавляем обработчик события keypress для поля поиска
+            document.getElementById('searchInput').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    searchCalculations();
+                }
+            });
+            
+            // Добавляем обработчик события keypress для поля поиска катушек
+            document.getElementById('spoolSearchInput').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    searchSpools();
+                }
+            });
+            
+            // Добавляем обработчик события keypress для поля ввода названия расчета
+            document.getElementById('calculationName').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    saveCalculation();
+                }
+            });
+        };
+		</script>
+		<script>
+	  // Регистрация Service Worker
+	  if ('serviceWorker' in navigator) {
+		window.addEventListener('load', () => {
+		  navigator.serviceWorker.register('sw.js')
+			.then(reg => console.log('Service Worker зарегистрирован'))
+			.catch(err => console.log('Ошибка регистрации SW:', err));
+		});
+	  }
+
+	  // Обработчик установки PWA
+	  let deferredPrompt;
+	  const installButton = document.createElement('button');
+	  
+	  window.addEventListener('beforeinstallprompt', (e) => {
+		e.preventDefault();
+		deferredPrompt = e;
+		
+		// Стилизация кнопки
+		installButton.textContent = 'Установить приложение';
+		installButton.style.cssText = `
+		  position: fixed;
+		  bottom: 20px;
+		  left: 50%;
+		  transform: translateX(-50%);
+		  padding: 12px 24px;
+		  background-color: #a67c52;
+		  color: white;
+		  border: none;
+		  border-radius: 25px;
+		  font-size: 16px;
+		  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+		  z-index: 1000;
+		  cursor: pointer;
+		`;
+		
+		installButton.onclick = () => {
+		  installButton.style.display = 'none';
+		  deferredPrompt.prompt();
+		  deferredPrompt.userChoice.then((choiceResult) => {
+			if (choiceResult.outcome === 'accepted') {
+			  console.log('Пользователь установил приложение');
+			}
+			deferredPrompt = null;
+		  });
+		};
+		
+		document.body.appendChild(installButton);
+	  });
+
+	  // Скрываем кнопку после установки
+	  window.addEventListener('appinstalled', () => {
+		installButton.style.display = 'none';
+		console.log('Приложение успешно установлено');
+	  });
+	</script>
+</body>
+</html>
