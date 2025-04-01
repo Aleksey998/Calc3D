@@ -1,7 +1,7 @@
 {
-  "name": "Калькулятор 3D-печати",
+  "name": "РљР°Р»СЊРєСѓР»СЏС‚РѕСЂ 3D-РїРµС‡Р°С‚Рё",
   "short_name": "3DCalc",
-  "description": "Расчет стоимости 3D-печати",
+  "description": "Р Р°СЃС‡РµС‚ СЃС‚РѕРёРјРѕСЃС‚Рё 3D-РїРµС‡Р°С‚Рё",
   "start_url": "index.html",
   "display": "standalone",
   "background_color": "#e8d5b5",
