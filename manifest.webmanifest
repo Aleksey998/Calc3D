@@ -1,6 +1,6 @@
 {
   "name": "Калькулятор 3D-печати",
-  "short_name": "3DCalc",
+  "short_name": "Calc3D",
   "description": "Расчет стоимости 3D-печати",
   "start_url": "index.html",
   "display": "standalone",
