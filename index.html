@@ -41,10 +41,10 @@
             flex-wrap: wrap;
         }
 
-		h1 {
-			text-align: center;
-			margin-bottom: 20px; /* Добавил отступ снизу для лучшего визуального разделения */
-		}
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
 
         .tab button {
             background-color: inherit;
@@ -81,7 +81,11 @@
 
         .input-group {
             margin-bottom: 15px;
-            width: 6cm;
+        }
+		
+		.input-groupbrak {
+            margin-bottom: 15px;
+			flex: 0 0 20%;
         }
 
         label {
@@ -167,90 +171,94 @@
             color: #5a3a1a;
         }
 
-		.history {
-			margin-top: 20px;
+        .history {
+            margin-top: 0px;
+        }
+        .history-item {
+            padding: 0px;
+            border-bottom: 1px solid #8B4513;
+            display: flex;
+            flex-direction: column;
+            background-color: #d2b48c;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            color: #5a3a1a;
+            overflow: hidden;
+        }
+        .history-item:last-child {
+        }
+        .history-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0px;
+            cursor: pointer;
+        }
+        .history-name {
+            font-weight: bold;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 5px 10px;
+        }
+		
+		.history-name:hover {
+			opacity: 0.7; 
 		}
-		.history-item {
-			padding: 0px;
-			border-bottom: 1px solid #8B4513;
-			display: flex;
-			flex-direction: column;
-			background-color: #d2b48c;
-			border-radius: 10px;
-			margin-bottom: 10px;
-			color: #5a3a1a;
-			overflow: hidden;
-		}
-		.history-item:last-child {
-			border-bottom: none;
-		}
-		.history-header {
-			display: flex;
-			justify-content: space-between;
-			align-items: center;
-			margin-bottom: 5px;
-			cursor: pointer;
-		}
-		.history-name {
-			font-weight: bold;
-			flex-grow: 1;
-			display: flex;
-			flex-direction: column;
-			padding: 5px 10px;
-		}
-		.history-time {
-			font-size: 0.8em;
-			color: #5a3a1a;
-			font-weight: normal;
-			margin-top: 3px;
-		}
-		.history-actions {
-			display: flex;
-			gap: 5px;
-		}
-		.history-data {
-			margin-top: 5px;
-			font-size: 0.9em;
-			display: flex;
-			justify-content: space-between;
-			gap: 0px;
-		}
-		.history-column {
-			flex: 1;
-			min-width: 0;
-			padding: 5px;
-			background-color: #c19a6b;
-			border: 1px solid #8B4513;
-			border-radius: 8px;
-			margin: 5px;
-			box-sizing: border-box;
-		}
-				/* Второй столбец */
-		.history-column:nth-child(2) p {
-			line-height: 1.7;
-		}
+		
+        .history-time {
+            font-size: 0.8em;
+            color: #5a3a1a;
+            font-weight: normal;
+            margin-top: 3px;
+        }
+        .history-actions {
+            display: flex;
+            gap: 5px;
+        }
+        .history-data {
+            margin-top: 5px;
+            font-size: 0.9em;
+            display: flex;
+            justify-content: space-between;
+            gap: 0px;
+        }
+        .history-column {
+            flex: 1;
+            min-width: 0;
+            padding: 5px;
+            background-color: #c19a6b;
+            border: 1px solid #8B4513;
+            border-radius: 8px;
+            margin: 5px;
+            box-sizing: border-box;
+        }
+        /* Второй столбец */
+        .history-column:nth-child(2) p {
+            line-height: 1.7;
+        }
 
-		/* Третий столбец */
-		.history-column:nth-child(3) p {
-			line-height: 1.7;
-		}
-		.history-column p {
-			margin: 3px 0;
-			line-height: 1.2;
-		}
-		.history-spool-info {
-			display: flex;
-			align-items: center;
-			gap: 5px;
-			margin-bottom: 5px;
-		}
-		.history-collapsed {
-			display: none;
-		}
-		.divider-line {
-			border-top: 1px solid #8B4513;
-			margin: 5px 0;
-		}
+        /* Третий столбец */
+        .history-column:nth-child(3) p {
+            line-height: 1.7;
+        }
+        .history-column p {
+            margin: 3px 0;
+            line-height: 1.2;
+        }
+        .history-spool-info {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            margin-bottom: 5px;
+        }
+        .history-collapsed {
+            display: none;
+        }
+        .divider-line {
+            border-top: 1px solid #8B4513;
+            margin: 5px 0;
+        }
 
         /* Обновленные стили для кнопок действий */
         .rename-button {
@@ -330,14 +338,13 @@
             border-bottom: 1px solid #8B4513;
             display: flex;
             flex-wrap: wrap;
-            gap: 10px;
+            gap: 5px;
             align-items: center;
             background-color: #d2b48c;
             border-radius: 10px;
             margin-bottom: 10px;
         }
         .spool-item:last-child {
-            border-bottom: none;
         }
         .spool-item select {
             flex: 1;
@@ -357,14 +364,14 @@
             align-items: center;
             width: 100%;
             cursor: pointer;
-            padding: 5px 0;
+            padding: 0;
         }
         .spool-content {
             width: 100%;
             display: flex;
             flex-wrap: wrap;
-            gap: 10px;
-            padding-top: 10px;
+            gap: 5px;
+            padding-top: 0px;
         }
         .spool-collapsed {
             display: none;
@@ -452,7 +459,7 @@
             width: 6cm;
             background-color: #a67c52;
             color: #fff;
-            font-size: 16px; /* Увеличенный размер шрифта */
+            font-size: 16px;
         }
         .spool-selection-color {
             width: 25px;
@@ -581,9 +588,9 @@
             background-color: #f44336;
             color: white;
         }
-		.buttons-row button {
-			width: auto;
-		}
+        .buttons-row button {
+            width: auto;
+        }
         #fileInput {
             display: none;
         }
@@ -599,7 +606,7 @@
         }
         .settings-button::after {
             content: "⚙";
-            font-size: 1.8em;
+            font-size: 1.0em;
         }
 
         .backup-description {
@@ -795,12 +802,290 @@
             display: flex;
             justify-content: flex-start;
             margin-bottom: 5px;
-			gap: 10px;
+            gap: 10px;
         }
         
         .print-info-row:last-child {
             margin-bottom: 0;
         }
+
+        /* Стили для вкладки "Заказы" */
+        .order {
+            margin-top: 15px;
+            border: 1px solid #8B4513;
+            padding: 15px;
+            border-radius: 10px;
+            background-color: #d2b48c;
+        }
+        
+        .order-row {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 5px;
+			flex-wrap: nowrap;
+        }
+        
+        .order-input-group {
+            flex: 1;
+        }
+		
+		.order-input-group.quantity-group {
+			fflex: 1;
+			min-width: 140px;
+		}
+
+		.order-input-group.name-group {
+			flex: 2; /* Занимает всё доступное пространство */
+			min-width: 200px;
+		}
+
+		.order-input-group.price-group {
+			fflex: 1;
+			min-width: 140px;
+		}
+        
+        .order-input-group input {
+            width: 100%;
+        }
+        
+        .order-total {
+            font-weight: bold;
+            margin-top: 22px;
+			margin-right: 0px;
+			margin-bottom: 0px;
+			margin-left: 0px;
+            padding: 10px;
+            background-color: #a67c52;
+            border-radius: 5px;
+            color: white;
+
+        }
+        
+        .saved-orders {
+            margin-top: 20px;
+        }
+        
+        .order-item {
+			padding: 0px;
+			border-bottom: 1px solid #8B4513;
+			display: flex;
+			flex-direction: column;
+			background-color: #d2b48c;
+			border-radius: 10px;
+			margin-bottom: 10px;
+			color: #5a3a1a;
+			overflow: hidden;
+		}
+		.order-header {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			margin-bottom: 5px;
+			cursor: pointer;
+			padding: 10px;
+		}
+		
+		.order-time {
+			font-size: 0.75em !important;
+			color: #5a3a1a;
+			font-weight: normal;
+			margin-top: 3px;
+		}
+		
+		.order-actions {
+			display: flex;
+			gap: 5px;
+			margin-left: 10px;
+		}
+		.order-content {
+			margin-top: 0px;
+			font-size: 0.9em;
+			padding: 10px;
+			display: none;
+		}
+		.order-content.expanded {
+			display: block;
+		}
+		
+		order-item h4 {
+			color: #5a3a1a;
+			margin-top: 0;
+		}
+
+		.order-item div {
+			color: #5a3a1a;
+			font-size: 0.95em;
+			margin: 0;
+		}
+		
+		.order-name {
+			font-weight: bold;
+			flex-grow: 1;
+			min-width: 0;
+			display: flex;
+			flex-direction: column;
+			font-size: 1.1em !important;
+			cursor: pointer;
+		}
+		
+		.order-name:hover {
+			opacity: 0.7; 
+		}
+		
+		.order-total-sum {
+			font-weight: bold;
+			margin-left: 10px;
+			color: #5a3a1a;
+		}
+		
+		.zakaz {
+			background-color: #a67c52; 
+			color: #000000;
+			padding: 5px 5px;
+			border-radius: 5px; 
+			margin: 0;
+			text-align: center;
+			margin-bottom: 10px;
+		}
+		
+		.quantity-controls {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .quantity-button {
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background-color: #a67c52;
+            color: white;
+            border: 1px solid #8B4513;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 16px;
+			padding: 15px;
+        }
+        
+        .quantity-button:hover {
+            background-color: #8B4513;
+        }
+        
+        .quantity-input {
+            width: 60px;
+            text-align: center;
+        }
+		
+		.order-input-group.delete-group {
+			flex: 0 0 40px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+		}
+
+		.order-input-group.delete-group .delete-button {
+			padding: 8px;
+			width: 100%;
+			height: 33px;
+			background-color: #8B4513;
+			color: white;
+			border: 1px solid #5a3a1a;
+			border-radius: 5px;
+			cursor: pointer;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+		}
+
+		.order-input-group.delete-group .delete-button:hover {
+			background-color: #5a3a1a;
+		}
+		
+		.result p,
+		.expense-item {
+			cursor: help;
+			position: relative;
+		}
+
+		.result p:hover::after,
+		.input-group label[title]:hover::after,
+		.expense-item:hover::after {
+			content: attr(title);
+			position: absolute;
+			left: 0;
+			bottom: 100%;
+			background: #d2b48c;
+			color: #5a3a1a;
+			padding: 5px;
+			border: 1px solid #8B4513;
+			border-radius: 5px;
+			white-space: nowrap;
+			z-index: 1;
+			font-size: 0.8em;
+		}
+		
+		.history-column [title],
+		.input-group label[title],
+		.history-spool-info [title] {
+			cursor: help;
+			position: relative;
+		}
+
+		.history-column [title]:hover::after,
+		.history-spool-info [title]:hover::after {
+			content: attr(title);
+			position: absolute;
+			left: 0;
+			bottom: 100%;
+			background: #d2b48c;
+			color: #5a3a1a;
+			padding: 8px;
+			border: 1px solid #8B4513;
+			border-radius: 5px;
+			white-space: pre-line;
+			z-index: 1000;
+			min-width: 250px;
+			font-size: 0.85em;
+			text-align: left;
+			box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+		}
+		
+		label[title] {
+			position: relative;
+			cursor: help;
+			display: inline-block;
+		}
+
+		label[title]:hover::after {
+			content: attr(title);
+			position: absolute;
+			left: 0;
+			bottom: 100%;
+			background: #d2b48c;
+			color: #5a3a1a;
+			padding: 8px;
+			border: 1px solid #8B4513;
+			border-radius: 5px;
+			white-space: pre-line;
+			z-index: 1000;
+			min-width: 250px;
+			font-size: 0.85em;
+			text-align: left;
+			box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+			pointer-events: none;
+		}
+		
+		/* Специфичные позиции для разных групп */
+		.input-group label[title]:hover::after {
+			left: -10px;
+		}
+
+		.input-groupbrak label[title]:hover::after {
+			left: -50px;
+}
 
         /* Обновленные стили для мобильной версии */
         @media (max-width: 600px) {
@@ -814,9 +1099,9 @@
                 width: 100%;
                 min-width: unset;
             }
-			.buttons-row button {
-				width: 100%;
-			}
+            .buttons-row button {
+                width: 100%;
+            }
             .spool-item .input-group,
             .spool-item select,
             .spool-item .info {
@@ -832,8 +1117,6 @@
                 gap: 5px;
             }
             .spool-selection-container {
-                flex-direction: column;
-                align-items: flex-start;
                 gap: 5px;
             }
             .spool-title-container {
@@ -841,39 +1124,43 @@
                 align-items: flex-start;
                 gap: 5px;
             }
+			
+			.spool-content {
+				gap: 0px;
+			}
             
             /* Исправленные стили для истории расчетов */
             .history-data {
-				flex-direction: column;
-				gap: 10px;
-				padding: 0;
-				margin: 0;
-				width: 100%;
-			}
-			.history-item {
-				padding: 0;
-				margin: 0 0 10px 0;
-				width: 100%;
-				box-sizing: border-box;
-			}
+                flex-direction: column;
+                gap: 0px;
+                padding: 0;
+                margin: 0;
+                width: 100%;
+            }
+            .history-item {
+                padding: 0;
+                margin: 0 0 10px 0;
+                width: 100%;
+                box-sizing: border-box;
+            }
             .history-column {
-                width: calc(100% - 10px); /* Учитываем внутренние отступы */
-				margin: 5px;
-				box-sizing: border-box;
-				padding: 10px;
+                width: calc(100% - 10px);
+                margin: 5px;
+                box-sizing: border-box;
+                padding: 10px;
             }
             .history-column:nth-child(1),
-			.history-column:nth-child(2),
-			.history-column:nth-child(3) {
-				margin-left: 0;
-				margin-right: 0;
-				width: 100%;
-			}
+            .history-column:nth-child(2),
+            .history-column:nth-child(3) {
+                margin-left: 0;
+                margin-right: 0;
+                width: 100%;
+            }
             .history-column p {
                 text-align: center;
-				margin: 3px 0;
-				padding: 0 5px;
-			}
+                margin: 3px 0;
+                padding: 0 5px;
+            }
             .history-spool-info {
                 justify-content: center;
             }
@@ -884,8 +1171,8 @@
                 margin-top: 0;
             }
             .history-column:last-child {
-				margin-bottom: 0;
-			}
+                margin-bottom: 0;
+            }
             .backup-buttons {
                 flex-direction: column;
             }
@@ -909,7 +1196,6 @@
             }
             .spool-actions {
                 margin-top: 5px;
-                width: 100%;
                 justify-content: flex-end;
             }
             .version-info {
@@ -955,7 +1241,7 @@
             .spools-header {
                 flex-direction: column;
                 align-items: flex-start;
-                gap: 10px;
+                gap: 0px;
             }
             
             .spools-header-controls {
@@ -1021,13 +1307,151 @@
             /* Адаптация блока информации о печати для мобильных */
             .print-info-row {
                 flex-direction: row;
-				flex-wrap: wrap;
+                flex-wrap: wrap;
                 gap: 5px;
             }
-			 /* Добавляем стиль для span внутри print-info-row */
-			.print-info-row span {
-				white-space: nowrap;
-				}
+            /* Добавляем стиль для span внутри print-info-row */
+            .print-info-row span {
+                white-space: nowrap;
+            }
+            
+            /* Адаптация вкладки "Заказы" для мобильных */
+            .order-row {
+                flex-wrap: wrap;
+            }
+            
+            .order-input-group {
+                width: 100%;
+            }
+			
+			.order-input-group.name-group,
+			.order-input-group.quantity-group,
+			.order-input-group.price-group {
+				flex: 0 0 100%;
+				width: 100%;
+				min-width: unset;
+			}
+            
+            .order-total {
+				text-align: center;
+				font-size: 0.9em;
+				width: 100%;
+				margin-top: -5px;
+				margin-bottom: 5px;
+            }
+			
+			.order-row:first-child {
+				flex-wrap: wrap;
+			}
+
+			.order-row:first-child .order-input-group {
+				flex: 0 0 100%;
+			}
+			
+			.tab {
+				flex-wrap: nowrap; /* Запрещаем перенос на новую строку */
+				overflow-x: auto; /* Добавляем горизонтальную прокрутку при необходимости */
+				-webkit-overflow-scrolling: touch; /* Плавная прокрутка на iOS */
+			}
+			
+			.tab button {
+				flex-shrink: 0; /* Запрещаем уменьшение размера кнопок */
+				padding-top: 10px;
+				padding-right: 5px;
+				padding-bottom: 10px;
+				padding-left: 5px;
+				font-size: 0.8em; /* Уменьшаем размер шрифта */
+				white-space: nowrap; /* Запрещаем перенос текста */
+			}
+			
+			/* Скрываем scrollbar для более аккуратного вида */
+			.tab::-webkit-scrollbar {
+				display: none;
+			}
+			
+			.tab {
+				-ms-overflow-style: none; /* IE и Edge */
+				scrollbar-width: none; /* Firefox */
+			}
+			
+			#orders button {
+				width: 100%;
+				margin: 0;
+			}
+			
+			#currentOrder .order .buttons-row {
+				display: flex;
+				gap: 10px;
+				margin-top: 10px;
+			}
+
+			#currentOrder .order .buttons-row button {
+				flex: 1;
+				width: auto;
+				margin: 0;
+			}
+			
+			/* Группа с количеством и ценой - в одну строку */
+			#orderItems .order-row .quantity-group,
+			#orderItems .order-row .price-group {
+				flex: 1;
+				min-width: 0;
+				width: auto;
+			}
+			
+			/* Контейнер для кнопок и количества */
+			.quantity-controls {
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				gap: 5px;
+			}
+			
+			/* Кнопки количества */
+			.quantity-button {
+				padding: 5px;
+				width: 30px;
+				height: 30px;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+			}
+			
+			/* Поле ввода количества */
+			.quantity-input {
+				width: 50px;
+				text-align: center;
+			}
+			
+			/* Поле цены */
+			#orderItems .order-row .price-group {
+				flex: 0 0 120px; /* Фиксированная ширина для цены */
+			}
+			
+			 .order-input-group.delete-group {
+				flex: 0 0 100%;
+				justify-content: flex-end;
+				margin-top: 5px;
+			}
+			
+			.order-input-group.delete-group .delete-button {
+				width: auto;
+				padding: 8px 15px;
+			}
+			
+			.input-group label[title]:hover::after {
+				left: 50%;
+				transform: translateX(-50%);
+				min-width: 200px;
+				white-space: normal;
+			}
+			
+			label[title]:hover::after {
+				left: 50% !important;
+				transform: translateX(-50%);
+				min-width: 200px;
+				white-space: normal;
+			}
         }
     </style>
 </head>
@@ -1038,148 +1462,153 @@
     <div class="tab">
         <button class="tablinks" onclick="openTab(event, 'main')" id="defaultOpen">Расчет</button>
         <button class="tablinks" onclick="openTab(event, 'settings')">Данные</button>
-        <button class="tablinks" onclick="openTab(event, 'history')">История расчетов</button>
+        <button class="tablinks" onclick="openTab(event, 'history')">Журнал расчетов</button>
+        <button class="tablinks" onclick="openTab(event, 'orders')">Заказы</button>
         <button class="tablinks settings-button" onclick="openTab(event, 'calculatorSettings')" title="Настройки калькулятора"></button>
     </div>
 
-		<!-- Вкладка "Основные данные" -->
-	<div id="main" class="tabcontent">
-		<!-- Улучшенное отображение выбора катушки -->
-		<div class="spool-selection-container">
-			<div class="spool-selection-label">Катушка:</div>
-			<div class="spool-selection-display">
-				<input type="text" id="spoolSearchInputMain" class="spool-selection-select" placeholder="Выберите катушку" readonly>
-				<div class="spool-selection-color" id="selectedSpoolColorDisplay" style="background-color: #cccccc;"></div>
-				
-				<!-- Выпадающий список для поиска катушек -->
-				<div class="spool-dropdown" id="spoolDropdown">
-					<input type="text" class="spool-dropdown-search" placeholder="Поиск катушки..." id="spoolDropdownSearch">
-					<ul class="spool-dropdown-list" id="spoolDropdownList"></ul>
-				</div>
-			</div>
-		</div>
+    <!-- Вкладка "Основные данные" -->
+    <div id="main" class="tabcontent">
+        <!-- Улучшенное отображение выбора катушки -->
+        <div class="spool-selection-container">
+            <div class="spool-selection-label">Катушка:</div>
+            <div class="spool-selection-display">
+                <input type="text" id="spoolSearchInputMain" class="spool-selection-select" placeholder="Выберите катушку" readonly>
+                <div class="spool-selection-color" id="selectedSpoolColorDisplay" style="background-color: #cccccc;"></div>
+                
+                <!-- Выпадающий список для поиска катушек -->
+                <div class="spool-dropdown" id="spoolDropdown">
+                    <input type="text" class="spool-dropdown-search" placeholder="Поиск катушки..." id="spoolDropdownSearch">
+                    <ul class="spool-dropdown-list" id="spoolDropdownList"></ul>
+                </div>
+            </div>
+        </div>
 
-		<!-- Время печати (часы и минуты) -->
-		<div class="inline-group">
-			<div class="input-group">
-				<label for="printTimeHours" title="Укажите время печати 1 экземпляра">Время печати (часы):</label>
-				<input type="number" id="printTimeHours" value="3">
-			</div>
-			<div class="input-group">
-				<label for="printTimeMinutes" title="Укажите время печати 1 экземпляра">Время печати (минуты):</label>
-				<input type="number" id="printTimeMinutes" value="0">
-			</div>
-		</div>
+        <!-- Время печати (часы и минуты) -->
+        <div class="inline-group">
+            <div class="input-group">
+                <label for="printTimeHours" title="Укажите время печати 1 экземпляра">Время печати (часы):</label>
+                <input type="number" id="printTimeHours" value="3">
+            </div>
+            <div class="input-group">
+                <label for="printTimeMinutes" title="Укажите время печати 1 экземпляра">Время печати (минуты):</label>
+                <input type="number" id="printTimeMinutes" value="0">
+            </div>
+        </div>
 
-		<!-- Масса детали и количество экземпляров -->
-		<div class="inline-group">
-			<div class="input-group">
-				<label for="partWeight" title="Укажите массу 1 экземпляра детали">Масса детали (гр.):</label>
-				<input type="number" id="partWeight" value="50">
-			</div>
-			<div class="input-group">
-				<label for="copies" title="Укажите планируемое количество экземпляров для печати">Кол-во экземпляров:</label>
-				<input type="number" id="copies" value="1">
-			</div>
-		</div>
+        <!-- Масса детали и количество экземпляров -->
+        <div class="inline-group">
+            <div class="input-group">
+                <label for="partWeight" title="Укажите массу 1 экземпляра детали">Масса детали (гр.):</label>
+                <input type="number" id="partWeight" value="50">
+            </div>
+            <div class="input-group">
+                <label for="copies" title="Укажите планируемое количество экземпляров для печати">Кол-во экземпляров:</label>
+                <input type="number" id="copies" value="1">
+            </div>
+        </div>
 
-		<!-- Время на моделирование и постобработка на одной строке -->
-		<div class="inline-group">
-			<div class="input-group">
-				<label for="modelingTime" title="Укажите время, затраченное на моделирование">Время на моделирование (часы):</label>
-				<input type="number" id="modelingTime" value="0">
-			</div>
-			<div class="input-group">
-				<label for="postProcessingCost" title="Укажите стоимость постобработки всех распечатанных экземпляров">Стоимость постобработки (руб):</label>
+        <!-- Время на моделирование и постобработка на одной строке -->
+        <div class="inline-group">
+            <div class="input-group">
+                <label for="modelingTime" title="Укажите время, затраченное на моделирование">Время на моделирование (часы):</label>
+                <input type="number" id="modelingTime" value="0">
+            </div>
+            <div class="input-group">
+				<label for="postProcessingCost" 
+					   title="Укажите стоимость постобработки 1 экземпляра">
+					Цена постобработки (руб/шт):
+				</label>
 				<input type="number" id="postProcessingCost" value="0">
-			</div>
-		</div>
+            </div>
+			<div class="input-groupbrak">
+                <label for="wasteCoefficient" title="Укажите коэффициент брака, который будет учитываться в расчетах">Коэф. брака:</label>
+                <input type="number" id="wasteCoefficient" value="1.2" step="0.1">
+            </div>
+        </div>
 
-		<!-- Строка с кнопками -->
-		<div class="buttons-row">
-			<button onclick="calculate()">Рассчитать</button>
-		</div>
-		
-		<!-- Новый блок с информацией о печати -->
-		<div class="print-info">
-			<div class="print-info-row">
-				<span>Общее время печати:</span>
-				<span id="totalPrintTime"></span>
-			</div>
-			<div class="print-info-row">
-				<span>Расход филамента:</span>
-				<span id="totalFilamentUsage"></span>
-			</div>
-		</div>
+        <!-- Строка с кнопками -->
+        <div class="buttons-row">
+            <button onclick="calculate()">Рассчитать</button>
+        </div>
+        
+        <!-- Новый блок с информацией о печати -->
+        <div class="print-info">
+            <div class="print-info-row">
+                <span>Общее время печати:</span>
+                <span id="totalPrintTime"></span>
+            </div>
+            <div class="print-info-row">
+                <span>Расход филамента:</span>
+                <span id="totalFilamentUsage"></span>
+            </div>
+        </div>
 
-		<div class="result">
-			<p>ИТОГО стоимость: <span id="totalPrice"></span> руб</p>
-			<p>Чистая прибыль: <span id="netProfit"></span> руб</p>
-			<div class="divider-line"></div>
-			<p>Себестоимость: <span id="costPrice"></span> руб</p>
-			<p class="expense-item">Электроэнергия: <span id="electricityExpense"></span> руб</p>
-			<p class="expense-item">Филамент: <span id="filamentExpense"></span> руб</p>
-			<p class="expense-item">Амортизация: <span id="depreciationExpense"></span> руб</p>
-			<div class="divider-line"></div>
-			<p>Моделирование: <span id="modelingExpense"></span> руб</p>
-			<p>Постобработка: <span id="postProcessingExpense"></span> руб</p>
-		</div>
+        <div class="result">
+            <p title="Общая стоимость печати с учетом всех затрат и наценок">ИТОГО стоимость: <span id="totalPrice"></span> руб</p>
+            <p title="Доход после вычета себестоимости">Чистая прибыль: <span id="netProfit"></span> руб</p>
+            <div class="divider-line"></div>
+            <p title="Суммарные расходы на производство (энергия + филамент (с учетом коэф.брака) + амортизация)">Себестоимость: <span id="costPrice"></span> руб</p>
+            <p class="expense-item" title="Расходы на электроэнергию, потребленную принтером за время печати">Электроэнергия: <span id="electricityExpense"></span> руб</p>
+            <p class="expense-item" title="Стоимость израсходованного филамента с учетом коэф.брака">Филамент: <span id="filamentExpense"></span> руб</p>
+            <p class="expense-item" title="Амортизационные расходы за использование принтера">Амортизация: <span id="depreciationExpense"></span> руб</p>
+            <div class="divider-line"></div>
+            <p title="Стоимость времени, затраченного на 3D-моделирование">Моделирование: <span id="modelingExpense"></span> руб</p>
+            <p title="Суммарная стоимость постобработки всех экземпляров">Постобработка: <span id="postProcessingExpense"></span> руб</p>
+        </div>
 
-		<!-- Блок сохранения расчета -->
-		<div class="save-calculation">
-			<div class="save-calculation-input">
-				<input type="text" id="calculationName" placeholder="Введите название расчета для его сохранения">
-				<button onclick="saveCalculation()">Сохранить</button>
-			</div>
-		</div>
-		
-		<div class="version-info">Автор проекта: Алексей Погодин | Версия 1.0.0</div>
-	</div>
+        <!-- Блок сохранения расчета -->
+        <div class="save-calculation">
+            <div class="save-calculation-input">
+                <input type="text" id="calculationName" placeholder="Введите название расчета для его сохранения">
+                <button onclick="saveCalculation()">Сохранить</button>
+            </div>
+        </div>
+        
+        <div class="version-info">Автор проекта: Алексей Погодин | Версия 2.0.1</div>
+    </div>
 
-	<!-- Вкладка "Параметры" -->
-	<div id="settings" class="tabcontent">
-		<!-- Мощность принтера и тариф на электричество -->
-		<div class="inline-group">
-			<div class="input-group">
-				<label for="printerPower" title="Укажите мощность вашего принтера">Мощность принтера (Вт):</label>
-				<input type="number" id="printerPower" value="300">
-			</div>
-			<div class="input-group">
-				<label for="electricityRate" title="Укажите тарифную ставку электроэнергии">Тариф на эл-во (руб/кВт*ч):</label>
-				<input type="number" id="electricityRate" value="6">
-			</div>
-		</div>
+    <!-- Вкладка "Параметры" -->
+    <div id="settings" class="tabcontent">
+        <!-- Мощность принтера и тариф на электричество -->
+        <div class="inline-group">
+            <div class="input-group">
+                <label for="printerPower" title="Укажите мощность вашего принтера">Мощность принтера (Вт):</label>
+                <input type="number" id="printerPower" value="300">
+            </div>
+            <div class="input-group">
+                <label for="electricityRate" title="Укажите тарифную ставку электроэнергии">Тариф на эл-во (руб/кВт*ч):</label>
+                <input type="number" id="electricityRate" value="6">
+            </div>
+        </div>
 
-		<!-- Стоимость принтера и срок службы -->
-		<div class="inline-group">
-			<div class="input-group">
-				<label for="printerCost" title="Укажите стоимость вашего принтера">Стоимость принтера (руб):</label>
-				<input type="number" id="printerCost" value="27000">
-			</div>
-			<div class="input-group">
-				<label for="printerLifetime" title="Укажите планируемый срок службы вашего принтера">Срок службы (лет):</label>
-				<input type="number" id="printerLifetime" value="1">
-			</div>
-		</div>
+        <!-- Стоимость принтера и срок службы -->
+        <div class="inline-group">
+            <div class="input-group">
+                <label for="printerCost" title="Укажите стоимость вашего принтера">Стоимость принтера (руб):</label>
+                <input type="number" id="printerCost" value="27000">
+            </div>
+            <div class="input-group">
+                <label for="printerLifetime" title="Укажите планируемый срок службы вашего принтера">Срок службы (лет):</label>
+                <input type="number" id="printerLifetime" value="1">
+            </div>
+        </div>
 
-		<!-- Коэффициент брака и стоимость моделирования -->
-		<div class="inline-group">
-			<div class="input-group">
-				<label for="wasteCoefficient" title="Укажите коэффициент брака, который будет учитываться в расчетах">Коэф. брака:</label>
-				<input type="number" id="wasteCoefficient" value="1.2" step="0.1">
-			</div>
-			<div class="input-group">
-				<label for="modelingHourRate" title="Укажите стоимость вашего 1 часа моделирования">Стоимость 1 часа моделирования (руб):</label>
-				<input type="number" id="modelingHourRate" value="500">
-			</div>
-		</div>
+        <!-- Коэффициент брака и стоимость моделирования -->
+        <div class="inline-group">
+            
+            <div class="input-group">
+                <label for="modelingHourRate" title="Укажите стоимость вашего 1 часа моделирования">Стоимость 1 часа моделирования (руб):</label>
+                <input type="number" id="modelingHourRate" value="500">
+            </div>
+        </div>
 
         <!-- Список катушек -->
         <div class="spools-header">
             <h3>Катушки филамента</h3>
             <div class="spools-header-controls">
                 <div class="search-input-group">
-                    <input type="text" id="spoolSearchInput" class="search-input" placeholder="Поиск катушки">
+                    <input type="text" id="spoolSearchInput" class="search-input" placeholder="Поиск катушки из списка">
                     <button class="search-button" onclick="searchSpools()">Найти</button>
                 </div>
                 <button class="search-button toggle-all-spools-button" id="toggleAllSpoolsButton" onclick="toggleAllSpools()">Свернуть все</button>
@@ -1201,7 +1630,7 @@
             </div>
         </div>
         
-        <div class="version-info">Автор проекта: Алексей Погодин | Версия 1.0.0</div>
+        <div class="version-info">Автор проекта: Алексей Погодин | Версия 2.0.1</div>
     </div>
 
     <!-- Вкладка "История расчетов" -->
@@ -1209,36 +1638,85 @@
         <!-- Блок поиска расчетов -->
         <div class="search-container">
             <div class="search-input-group">
-                <input type="text" id="searchInput" class="search-input" placeholder="Введите название">
+                <input type="text" id="searchInput" class="search-input" placeholder="Введите название расчета">
                 <button class="search-button" onclick="searchCalculations()">Найти</button>
             </div>
             <button class="toggle-all-button" id="toggleAllButton" onclick="toggleAllCalculations()">Свернуть все</button>
         </div>
         
         <div class="history" id="historyList"></div>
-        <div class="version-info">Автор проекта: Алексей Погодин | Версия 1.0.0</div>
+        <div class="version-info">Автор проекта: Алексей Погодин | Версия 2.0.1</div>
     </div>
 
-    <!-- Новая вкладка "Настройки калькулятора" -->
-    <div id="calculatorSettings" class="tabcontent">
-        <div class="backup-buttons">
-            <div class="backup-row">
-                <button class="backup-button clear-history-button" onclick="clearHistory()">Очистить журнал</button>
-                <div class="backup-description">Очистить журнал сохраненных расчетов</div>
+    <!-- Вкладка "Заказы" -->
+    <div id="orders" class="tabcontent">
+        <button style="width: 100%;"onclick="createNewOrder()">Создать новый заказ</button>
+        <div id="currentOrder" style="display: none;">
+            <div class="order">
+                <div class="order-row">
+                    <div class="order-input-group">
+                        <label>Название заказа:</label>
+                        <input type="text" id="orderName" placeholder="Введите название заказа">
+                    </div>
+                    <div class="order-total" id="orderTotal">Итого: 0.00 руб</div>
+                </div>
+                
+                <div id="orderItems">
+                    <!-- Строки с деталями будут добавляться здесь -->
+                </div>
+                
+                <div class="buttons-row">
+					<button onclick="addOrderRow()">Добавить строку</button>
+					<button onclick="saveOrder()">Сохранить заказ</button>
+				</div>
             </div>
         </div>
 
+        <div class="saved-orders" id="savedOrders">
+			<div>
+				<h3 class="zakaz">⇩ Список сохраненных заказов ⇩</h3>
+			</div>
+			<!-- Блок поиска заказов -->
+			 <div class="search-container">
+				<div class="search-input-group">
+					<input type="text" id="orderSearchInput" class="search-input" placeholder="Введите название заказа">
+					<button class="search-button" onclick="searchOrders()">Найти</button>
+				</div>
+				<button class="toggle-all-button" id="toggleAllOrdersButton" onclick="toggleAllOrders()">Свернуть все</button>
+			</div>
+			
+			<div class="orders-list" id="ordersList"></div>
+		</div>
+        <div class="version-info">Автор проекта: Алексей Погодин | Версия 2.0.1</div>
+    </div>
+
+    <!-- Вкладка "Настройки калькулятора" -->
+    <div id="calculatorSettings" class="tabcontent">
+        <div class="backup-buttons">
+            <div class="backup-row">
+                <button class="backup-button clear-history-button" onclick="clearHistory()">Очистить журнал расчетов</button>
+                <div class="backup-description">Очистить журнал сохраненных расчетов</div>
+            </div>
+        </div>
+		<!-- Новая кнопка очистки заказов -->
+		<div class="backup-buttons">
+			<div class="backup-row">
+				<button class="backup-button clear-history-button" onclick="clearOrders()">Очистить список заказов</button>
+				<div class="backup-description">Очистить список сохраненных заказов</div>
+			</div>
+		</div>
+
         <h3>Резервное копирование</h3>
-        
+		
         <!-- Кнопки резервного копирования -->
         <div class="backup-buttons">
             <div class="backup-row">
                 <button class="backup-button export-button" onclick="exportBackup()">Экспорт резервной копии</button>
-                <div class="backup-description">Экспорт всех настроек калькулятора, данных для расчетов и журнала с сохраненными расчетами</div>
+                <div class="backup-description">Экспорт всех настроек калькулятора, данных для расчетов, журнала с сохраненными расчетами и заказов</div>
             </div>
             <div class="backup-row">
                 <button class="backup-button import-button" onclick="document.getElementById('fileInput').click()">Импорт резервной копии</button>
-                <div class="backup-description">Импорт всех настроек калькулятора, данных для расчетов и журнала с сохраненными расчетами</div>
+                <div class="backup-description">Импорт всех настроек калькулятора, данных для расчетов, журнала с сохраненными расчетами и заказов</div>
             </div>
             <input type="file" id="fileInput" accept=".json" onchange="importBackup(this)">
         </div>
@@ -1247,7 +1725,7 @@
         <div class="backup-buttons">
             <div class="backup-row">
                 <button class="backup-button reset-button" onclick="resetToFactorySettings()">Сбросить до заводских настроек</button>
-                <div class="backup-description">Удаление всех данных для расчетов и очистка журнала сохраненных расчеты</div>
+                <div class="backup-description">Удаление всех данных для расчетов, очистка журнала сохраненных расчетов и удаление всех заказов</div>
             </div>
         </div>
 
@@ -1255,7 +1733,7 @@
         <div class="author-info">
             <p>Данный проект (калькулятор расчета стоимости 3D-печати) был разработан по личной инициативе и является интеллектуальной собственностью автора.</p>
             <p>Автором данного проекта является Алексей Погодин (@AlekseyPogodin)</p>
-            <p>Версия калькулятора - 1.0.0</p>
+            <p>Версия калькулятора - 2.0.1</p>
         </div>
     </div>
 
@@ -1287,6 +1765,10 @@
         let allSpoolsCollapsed = false;
         // ID текущей выбранной катушки
         let currentSelectedSpoolId = null;
+        // Массив для хранения заказов
+        let orders = JSON.parse(localStorage.getItem('orders')) || [];
+        // Текущий редактируемый заказ
+        let currentOrder = null;
 
         // Функция для добавления новой катушки
         function addSpool() {
@@ -1397,6 +1879,15 @@
                 renderSpoolsList();
             }
         }
+
+		function clearOrders() {
+			if (confirm('Вы уверены, что хотите удалить все сохраненные заказы? Это действие нельзя отменить.')) {
+				localStorage.removeItem('orders');
+				orders = []; // Очищаем массив заказов
+				updateOrdersList(); // Обновляем список
+				alert('Все заказы успешно удалены!');
+			}
+		}
 
         // Функция для переключения состояния всех катушек (свернуть/развернуть все)
         function toggleAllSpools() {
@@ -1855,6 +2346,7 @@
             }
 
             loadHistory();
+            loadOrders();
         }
 
         // Функция для поиска расчетов по названию
@@ -1879,7 +2371,7 @@
             historyList.innerHTML = '';
 
             if (historyItems.length === 0) {
-                historyList.innerHTML = '<div class="no-results">Ничего не найдено</div>';
+                historyList.innerHTML = '<div class="no-results">Нет сохраненных расчетов</div>';
                 return;
             }
 
@@ -1895,7 +2387,7 @@
                 const nameDiv = document.createElement('div');
                 nameDiv.className = 'history-name';
                 nameDiv.innerHTML = `
-                    <div>${item.name}</div>
+                    <div>${item.name} &nbsp;(${item.totalPrice} руб)</div>
                     <div class="history-time">${item.time}</div>
                 `;
                 
@@ -1954,41 +2446,91 @@
                 const spoolInfoDiv = document.createElement('div');
                 spoolInfoDiv.className = 'history-spool-info';
                 spoolInfoDiv.innerHTML = `
-                    <span>Катушка: ${item.spoolName}</span>
-                    <div class="filament-color-display" style="background-color: ${item.spoolColor};"></div>
+                    <span title="Использованная катушка с параметрами:\n- Название: ${item.spoolName}\n- Цена 1гр. закупочная: ${item.filamentCostPerGram} руб\n- Цена 1гр. для клиента: ${item.filamentCostForSale} руб">
+						Катушка: ${item.spoolName}
+					</span>
+					<div class="filament-color-display" 
+						 style="background-color: ${item.spoolColor};"
+						 title="Цвет используемого филамента">
+					</div>
                 `;
                 
                 const markupInfoDiv = document.createElement('p');
-                markupInfoDiv.innerHTML = `Наценка на филамент: ${item.markupPercentage}%<br> (${item.filamentCostPerGram} → ${item.filamentCostForSale} руб/гр)`;
+                markupInfoDiv.innerHTML = `
+					<span title="Рассчитанная наценка на филамент:\n(Цена продажи - Себестоимость) / Себестоимость * 100%">
+						Наценка на филамент: ${item.markupPercentage}%
+					</span>
+					<br> 
+					<span title="Себестоимость → Цена для клиента">
+						(${item.filamentCostPerGram} → ${item.filamentCostForSale} руб/гр)
+					</span>
+				`;
+				
+				const wasteCoefficientDiv = document.createElement('p');
+				wasteCoefficientDiv.innerHTML = `
+					<span title="Учет возможного брака при печати:\nИтоговая масса = масса элемента × коэф.брака">
+					Коэффициент брака: ${item.wasteCoefficient}
+				</span>
+				`;
                 
                 const printTimeDiv = document.createElement('p');
-                printTimeDiv.innerHTML = `Время печати: ${item.totalPrintTime}<br> (${item.printTimeHours} ч ${item.printTimeMinutes} мин × ${item.copies} шт)`;
+                printTimeDiv.innerHTML = `
+					<span title="Общее время на печать всех экземпляров">
+					Общее время печати:<br> 
+					${item.totalPrintTime} 
+					<span title="Время на 1 экземпляр: ${item.printTimeHours} ч ${item.printTimeMinutes} мин">
+						(${item.printTimeHours} ч ${item.printTimeMinutes} мин × ${item.copies} шт)
+					</span>
+				</span>
+				`;
                 
                 const filamentUsageDiv = document.createElement('p');
-                filamentUsageDiv.innerHTML = `Расход филамента: ${item.filamentUsage} гр`;
+                filamentUsageDiv.innerHTML = `
+					<span title="Общий расход филамента с учетом брака и кол-ва экземпляров>
+						Расход филамента: ${item.filamentUsage} гр
+					</span>
+				`;
                 
                 column1.appendChild(spoolInfoDiv);
-                column1.appendChild(filamentUsageDiv);column1.appendChild(printTimeDiv);
-				column1.appendChild(markupInfoDiv);
+                column1.appendChild(filamentUsageDiv);
+                column1.appendChild(printTimeDiv);
+                column1.appendChild(markupInfoDiv);
+				column1.appendChild(wasteCoefficientDiv);
                 
                 const column2 = document.createElement('div');
                 column2.className = 'history-column';
                 column2.innerHTML = `
-                    <p>ИТОГО цена: ${item.totalPrice} руб</p>
-                    <p>Чистая прибыль: ${item.netProfit} руб</p>
-                    <div class="divider-line"></div>
-                    <p>Моделирование: ${item.modelingExpense} руб</p>
-                    <p>Постобработка: ${item.postProcessingExpense} руб</p>
+                    <p title="Итоговая цена для клиента">
+						ИТОГО цена: ${item.totalPrice} руб
+					</p>
+					<p title="Доход после вычета себестоимости">
+						Чистая прибыль: ${item.netProfit} руб
+					</p>
+					<div class="divider-line"></div>
+					<p title="Стоимость работ по 3D-моделированию">
+						Моделирование: ${item.modelingExpense} руб
+					</p>
+					<p title="Затраты на постобработку всех экземпляров">
+						Постобработка: ${item.postProcessingExpense} руб
+					</p>
                 `;
                 
                 const column3 = document.createElement('div');
                 column3.className = 'history-column';
                 column3.innerHTML = `
-                    <p>Себестоимость: ${item.costPrice} руб</p>
-                    <div class="divider-line"></div>
-                    <p>Электроэнергия: ${item.electricityExpense} руб</p>
-                    <p>Филамент: ${item.filamentExpense} руб</p>
-                    <p>Амортизация: ${item.depreciationExpense} руб</p>
+					<p title="Суммарные производственные затраты">
+						Себестоимость: ${item.costPrice} руб
+					</p>
+					<div class="divider-line"></div>
+					<p title="Затраты на электроэнергию для принтера">
+						Электроэнергия: ${item.electricityExpense} руб
+					</p>
+					<p title="Стоимость израсходованного филамента">
+						Филамент: ${item.filamentExpense} руб
+					</p>
+					<p title="Амортизационные отчисления оборудования">
+						Амортизация: ${item.depreciationExpense} руб
+					</p>
                 `;
                 
                 dataDiv.appendChild(column1);
@@ -2078,7 +2620,8 @@
                 filamentUsage: filamentUsage,
                 markupPercentage: markupPercentage,
                 filamentCostPerGram: filamentCostPerGram.toFixed(2),
-                filamentCostForSale: selectedSpool.filamentCostForSale
+                filamentCostForSale: selectedSpool.filamentCostForSale,
+				wasteCoefficient: wasteCoefficient
             };
 
             const history = JSON.parse(localStorage.getItem('calculationHistory')) || [];
@@ -2139,7 +2682,8 @@
             const partWeight = parseFloat(document.getElementById('partWeight').value);
             const copies = parseFloat(document.getElementById('copies').value);
             const modelingTime = parseFloat(document.getElementById('modelingTime').value);
-            const postProcessingCost = parseFloat(document.getElementById('postProcessingCost').value);
+            const postProcessingCostPerItem = parseFloat(document.getElementById('postProcessingCost').value);
+			const postProcessingTotal = postProcessingCostPerItem * copies;
             const printerPower = parseFloat(document.getElementById('printerPower').value);
             const electricityRate = parseFloat(document.getElementById('electricityRate').value);
             const printerCost = parseFloat(document.getElementById('printerCost').value);
@@ -2175,7 +2719,7 @@
             // Расчет стоимости моделирования
             const modelingCost = modelingTime * modelingHourRate;
 
-            const totalPrice = electricityTotal + filamentTotal + depreciationTotal + modelingCost + postProcessingCost;
+            const totalPrice = electricityTotal + filamentTotal + depreciationTotal + modelingCost + postProcessingTotal;
             const costPrice = electricityTotal + filamentCost + depreciationTotal;
             const netProfit = totalPrice - costPrice;
 
@@ -2186,7 +2730,7 @@
             document.getElementById('filamentExpense').textContent = filamentCost.toFixed(2);
             document.getElementById('depreciationExpense').textContent = depreciationTotal.toFixed(2);
             document.getElementById('modelingExpense').textContent = modelingCost.toFixed(2);
-            document.getElementById('postProcessingExpense').textContent = postProcessingCost.toFixed(2);
+            document.getElementById('postProcessingExpense').textContent = postProcessingTotal.toFixed(2);
         }
 
         // Функция для экспорта резервной копии
@@ -2209,6 +2753,7 @@
                 spools: spools,
                 currentSelectedSpoolId: currentSelectedSpoolId,
                 history: JSON.parse(localStorage.getItem('calculationHistory')) || [],
+                orders: JSON.parse(localStorage.getItem('orders')) || [],
                 version: "1.0",
                 exportedAt: new Date().toISOString()
             };
@@ -2271,6 +2816,12 @@
                         loadHistory();
                     }
                     
+                    if (backupData.orders && backupData.orders.length > 0) {
+                        localStorage.setItem('orders', JSON.stringify(backupData.orders));
+                        orders = backupData.orders;
+                        updateOrdersList();
+                    }
+                    
                     saveData();
                     alert('Резервная копия успешно импортирована!');
                 } catch (error) {
@@ -2294,7 +2845,7 @@
             if (confirm('Вы уверены, что хотите сбросить все настройки калькулятора к заводским? Это действие нельзя отменить и все ваши данные будут удалены.')) {
                 localStorage.clear();
                 
-                document.getElementById('printTimeHours').value = 1;
+                document.getElementById('printTimeHours').value = 0;
                 document.getElementById('printTimeMinutes').value = 0;
                 document.getElementById('partWeight').value = 0;
                 document.getElementById('copies').value = 1;
@@ -2308,28 +2859,46 @@
                 document.getElementById('modelingHourRate').value = 500;
                 
                 spools = [];
-                // Создаем первую катушку автоматически
-                currentSelectedSpoolId = addSpool();
+                // Создаем новую катушку с заводскими настройками
+				const factorySpool = {
+					id: Date.now(),
+					name: 'Основная катушка',
+					spoolCost: 1000,
+					spoolWeight: 1000,
+					filamentCostForSale: 3,
+					color: '#cccccc',
+					collapsed: false
+				};
+				spools.push(factorySpool);
+				currentSelectedSpoolId = factorySpool.id;
                 
-                localStorage.removeItem('calculationHistory');
-                collapsedCalculations = {};
-                allCollapsed = false;
-                document.getElementById('toggleAllButton').textContent = 'Свернуть все';
-                document.getElementById('historyList').innerHTML = '';
-                
-                document.getElementById('lastSaveInfoTimeSettings').textContent = '';
-                
-                document.getElementById('totalPrice').textContent = '';
-                document.getElementById('netProfit').textContent = '';
-                document.getElementById('costPrice').textContent = '';
-                document.getElementById('electricityExpense').textContent = '';
-                document.getElementById('filamentExpense').textContent = '';
-                document.getElementById('depreciationExpense').textContent = '';
-                document.getElementById('modelingExpense').textContent = '';
-                document.getElementById('postProcessingExpense').textContent = '';
-                
-                alert('Калькулятор сброшен к заводским настройкам!');
-            }
+                // Сохраняем обновленные данные
+				localStorage.setItem('spools', JSON.stringify(spools));
+				localStorage.setItem('currentSelectedSpoolId', currentSelectedSpoolId);
+				
+				// Обновляем отображение
+				renderSpoolsList();
+				updateSpoolDropdown();
+				updateSelectedSpoolDisplay();
+
+				// Очистка истории расчетов
+				localStorage.removeItem('calculationHistory');
+				collapsedCalculations = {};
+				allCollapsed = false;
+				document.getElementById('toggleAllButton').textContent = 'Свернуть все';
+				document.getElementById('historyList').innerHTML = '';
+				
+				// Очистка заказов
+				localStorage.removeItem('orders');
+				orders = [];
+				document.getElementById('savedOrders').innerHTML = '<h3>Сохраненные заказы</h3>';
+				
+				// Сброс прочих элементов
+				document.getElementById('lastSaveInfoTimeSettings').textContent = '';
+				document.querySelectorAll('.result span').forEach(span => span.textContent = '');
+				
+				alert('Калькулятор сброшен к заводским настройкам!');
+			}
         }
 
         // Функция для отображения выпадающего списка катушек
@@ -2378,6 +2947,278 @@
             });
         }
 
+        // Функции для работы с заказами
+        function createNewOrder() {
+            document.getElementById('currentOrder').style.display = 'block';
+            document.getElementById('orderItems').innerHTML = '';
+            currentOrder = {
+                name: '',
+                items: [],
+                total: 0
+            };
+            document.getElementById('orderName').value = '';
+            document.getElementById('orderTotal').textContent = 'Итого: 0.00 руб';
+            addOrderRow();
+        }
+
+        function addOrderRow() {
+            const orderItems = document.getElementById('orderItems');
+            const row = document.createElement('div');
+            row.className = 'order-row';
+            row.innerHTML = `
+                <div class="order-input-group name-group">
+					<input type="text" class="item-name" placeholder="Название детали" onchange="calculateOrderTotal()">
+				</div>
+				<div class="order-input-group quantity-group">
+					<div class="quantity-controls">
+						<button class="quantity-button" onclick="decrementQuantity(this)">-</button>
+						<input type="number" class="quantity quantity-input" value="1" min="1" onchange="calculateOrderTotal()">
+						<button class="quantity-button" onclick="incrementQuantity(this)">+</button>
+					</div>
+				</div>
+				<div class="order-input-group price-group">
+					<input type="number" class="item-price" placeholder="Стоимость" onchange="calculateOrderTotal()">
+				</div>
+				<div class="order-input-group delete-group">
+					<button class="delete-button" onclick="removeOrderRow(this)">✕</button>
+				</div>
+            `;
+            orderItems.appendChild(row);
+        }
+
+		function removeOrderRow(button) {
+			const row = button.closest('.order-row');
+			row.remove();
+			calculateOrderTotal();
+		}
+
+        // Функция для уменьшения количества
+        function decrementQuantity(button) {
+            const quantityInput = button.nextElementSibling;
+            let value = parseInt(quantityInput.value) || 1;
+            if (value > 1) {
+                value--;
+                quantityInput.value = value;
+                calculateOrderTotal();
+            }
+        }
+
+        // Функция для увеличения количества
+        function incrementQuantity(button) {
+            const quantityInput = button.previousElementSibling;
+            let value = parseInt(quantityInput.value) || 1;
+            value++;
+            quantityInput.value = value;
+            calculateOrderTotal();
+        }
+
+        function calculateOrderTotal() {
+            if (!currentOrder) return;
+            
+            let total = 0;
+            const rows = document.querySelectorAll('#orderItems .order-row');
+            
+            currentOrder.items = [];
+            rows.forEach(row => {
+                const quantity = parseInt(row.querySelector('.quantity').value) || 0;
+                const price = parseFloat(row.querySelector('.item-price').value) || 0;
+                const name = row.querySelector('.item-name').value || 'Без названия';
+                
+                total += quantity * price;
+                currentOrder.items.push({ quantity, price, name });
+            });
+            
+            currentOrder.total = total;
+            document.getElementById('orderTotal').textContent = `Итого: ${total.toFixed(2)} руб`;
+            currentOrder.name = document.getElementById('orderName').value;
+        }
+
+        function saveOrder() {
+            if (!currentOrder || currentOrder.items.length === 0) {
+                alert('Добавьте хотя бы одну деталь в заказ!');
+                return;
+            }
+            
+            if (!currentOrder.name) {
+                alert('Введите название заказа!');
+                return;
+            }
+            
+			currentOrder.time = new Date().toLocaleString();
+			currentOrder.collapsed = true; // По умолчанию свернуто
+	
+            orders.unshift(currentOrder);
+            localStorage.setItem('orders', JSON.stringify(orders));
+            updateOrdersList();
+            document.getElementById('currentOrder').style.display = 'none';
+            alert('Заказ сохранен!');
+        }
+
+        function loadOrders() {
+            orders = JSON.parse(localStorage.getItem('orders')) || [];
+            updateOrdersList();
+        }
+
+        function updateOrdersList() {
+			const ordersList = document.getElementById('ordersList');
+			ordersList.innerHTML = '';
+
+			if (orders.length === 0) {
+				ordersList.innerHTML = '<div class="no-results">Нет сохраненных заказов</div>';
+				return;
+			}
+
+			orders.forEach((order, index) => {
+				const orderDiv = document.createElement('div');
+				orderDiv.className = 'order-item';
+				
+				const header = document.createElement('div');
+				header.className = 'order-header';
+				header.innerHTML = `
+					 <div class="order-name" onclick="toggleOrder(${index})">
+						<div>${order.name} <span class="order-total-sum">(${order.total.toFixed(2)} руб)</span></div>
+						<div class="order-time">${order.time}</div>
+					</div>
+					<div class="order-actions">
+						<button class="rename-button" onclick="event.stopPropagation(); renameOrder(${index})">✎</button>
+						<button class="delete-button" onclick="event.stopPropagation(); deleteOrder(${index})">✕</button>
+						<button class="toggle-button" onclick="event.stopPropagation(); toggleOrder(${index})">${order.collapsed ? '▼' : '▲'}</button>
+					</div>
+				`;
+				
+				const content = document.createElement('div');
+				content.className = `order-content${order.collapsed ? '' : ' expanded'}`;
+				
+				let itemsHtml = '';
+				order.items.forEach(item => {
+					// Добавляем информацию о стоимости за штуку если количество > 1
+					if (item.quantity > 1) {
+						itemsHtml += `
+							<div>
+								${item.quantity} × ${item.name} 
+								(${item.price.toFixed(2)} руб/шт) - 
+								${(item.quantity * item.price).toFixed(2)} руб
+							</div>
+						`;
+					} else {
+						itemsHtml += `
+							<div>
+								${item.quantity} × ${item.name} - 
+								${(item.quantity * item.price).toFixed(2)} руб
+							</div>
+						`;
+					}
+				});
+				
+				content.innerHTML = itemsHtml;
+				
+				orderDiv.appendChild(header);
+				orderDiv.appendChild(content);
+				ordersList.appendChild(orderDiv);
+			});
+		}
+
+		function renameOrder(index) {
+			const newName = prompt('Введите новое название заказа:', orders[index].name);
+			if (newName) {
+				orders[index].name = newName;
+				localStorage.setItem('orders', JSON.stringify(orders));
+				updateOrdersList();
+			}
+		}
+
+		function toggleOrder(index) {
+			orders[index].collapsed = !orders[index].collapsed;
+			localStorage.setItem('orders', JSON.stringify(orders));
+			updateOrdersList();
+		}
+
+		function deleteOrder(index) {
+			if (confirm('Вы уверены, что хотите удалить этот заказ?')) {
+				orders.splice(index, 1);
+				localStorage.setItem('orders', JSON.stringify(orders));
+				updateOrdersList();
+			}
+		}
+		
+		function searchOrders() {
+			const searchTerm = document.getElementById('orderSearchInput').value.toLowerCase();
+			if (!searchTerm) {
+				updateOrdersList();
+				return;
+			}
+
+			const filteredOrders = orders.filter(order => 
+				order.name.toLowerCase().includes(searchTerm)
+			);
+
+			renderFilteredOrdersList(filteredOrders);
+		}
+
+		// Функция для отображения отфильтрованного списка заказов
+		function renderFilteredOrdersList(filteredOrders) {
+			const ordersList = document.getElementById('ordersList');
+			ordersList.innerHTML = '';
+
+			if (filteredOrders.length === 0) {
+				ordersList.innerHTML = '<div class="no-results">Ничего не найдено</div>';
+				return;
+			}
+
+			filteredOrders.forEach((order, index) => {
+				const orderDiv = document.createElement('div');
+				orderDiv.className = 'order-item';
+				
+				const header = document.createElement('div');
+				header.className = 'order-header';
+				header.innerHTML = `
+					 <div class="order-name" onclick="toggleOrder(${index})">
+						<div>${order.name} <span class="order-total-sum">(${order.total.toFixed(2)} руб)</span></div>
+						<div class="order-time">${order.time}</div>
+					</div>
+					<div class="order-actions">
+						<button class="rename-button" onclick="event.stopPropagation(); renameOrder(${index})">✎</button>
+						<button class="delete-button" onclick="event.stopPropagation(); deleteOrder(${index})">✕</button>
+						<button class="toggle-button" onclick="event.stopPropagation(); toggleOrder(${index})">${order.collapsed ? '▼' : '▲'}</button>
+					</div>
+				`;
+				
+				const content = document.createElement('div');
+				content.className = `order-content${order.collapsed ? '' : ' expanded'}`;
+				
+				let itemsHtml = '';
+				order.items.forEach(item => {
+					itemsHtml += `<div>${item.quantity} × ${item.name} - ${(item.quantity * item.price).toFixed(2)} руб</div>`;
+				});
+				
+				content.innerHTML = itemsHtml;
+				
+				orderDiv.appendChild(header);
+				orderDiv.appendChild(content);
+				ordersList.appendChild(orderDiv);
+			});
+		}
+
+		// Функция для переключения состояния всех заказов (свернуть/развернуть все)
+		function toggleAllOrders() {
+			if (orders.length === 0) return;
+			
+			const allCollapsed = orders.every(order => order.collapsed);
+			const button = document.getElementById('toggleAllOrdersButton');
+			
+			// Обновляем состояние всех заказов
+			orders.forEach(order => {
+				order.collapsed = !allCollapsed;
+			});
+			
+			// Обновляем текст кнопки
+			button.textContent = allCollapsed ? 'Свернуть все' : 'Развернуть все';
+			
+			// Сохраняем и обновляем список
+			localStorage.setItem('orders', JSON.stringify(orders));
+			updateOrdersList();
+		}
+
         // Загружаем данные при загрузке страницы
         window.onload = function() {
             loadData();
@@ -2418,9 +3259,18 @@
                     saveCalculation();
                 }
             });
+            
+            // Добавляем обработчик события для поля имени заказа
+            document.getElementById('orderName').addEventListener('input', calculateOrderTotal);
+			
+			document.getElementById('orderSearchInput').addEventListener('keypress', function(e) {
+				if (e.key === 'Enter') {
+					searchOrders();
+				}
+			});
         };
-		</script>
-		<script>
+    </script>
+	<script>
 	  // Регистрация Service Worker
 	  if ('serviceWorker' in navigator) {
 		window.addEventListener('load', () => {
@@ -2439,35 +3289,38 @@
 		deferredPrompt = e;
 		
 		// Стилизация кнопки
-		installButton.textContent = 'Установить приложение';
-		installButton.style.cssText = `
-		  position: fixed;
-		  bottom: 20px;
-		  left: 50%;
-		  transform: translateX(-50%);
-		  padding: 12px 24px;
-		  background-color: #a67c52;
-		  color: white;
-		  border: none;
-		  border-radius: 25px;
-		  font-size: 16px;
-		  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-		  z-index: 1000;
-		  cursor: pointer;
-		`;
+		// Проверяем, мобильное ли устройство (ширина экрана <= 768px)
+		if (window.innerWidth <= 768) {
+			installButton.textContent = 'Установить приложение';
+			installButton.style.cssText = `
+			  position: fixed;
+			  bottom: 20px;
+			  left: 50%;
+			  transform: translateX(-50%);
+			  padding: 12px 24px;
+			  background-color: #a67c52;
+			  color: white;
+			  border: none;
+			  border-radius: 25px;
+			  font-size: 16px;
+			  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+			  z-index: 1000;
+			  cursor: pointer;
+			`;
+			
+			installButton.onclick = () => {
+			  installButton.style.display = 'none';
+			  deferredPrompt.prompt();
+			  deferredPrompt.userChoice.then((choiceResult) => {
+				if (choiceResult.outcome === 'accepted') {
+				  console.log('Пользователь установил приложение');
+				}
+				deferredPrompt = null;
+			  });
+			};
 		
-		installButton.onclick = () => {
-		  installButton.style.display = 'none';
-		  deferredPrompt.prompt();
-		  deferredPrompt.userChoice.then((choiceResult) => {
-			if (choiceResult.outcome === 'accepted') {
-			  console.log('Пользователь установил приложение');
-			}
-			deferredPrompt = null;
-		  });
-		};
-		
-		document.body.appendChild(installButton);
+			document.body.appendChild(installButton);
+		}
 	  });
 
 	  // Скрываем кнопку после установки
